@@ -50,9 +50,11 @@
 <script>
 import { auth } from "../firebase";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const router = useRouter();
     const email = ref(null);
     const errors = ref("");
     const password = ref(null);
@@ -82,6 +84,7 @@ export default {
         );
         console.log(userCredentials);
         isLoading.value = false;
+        router.push("dashboard");
       } catch (error) {
         // handling errors if any
         errors.value += error.message || "failed to login | ";
