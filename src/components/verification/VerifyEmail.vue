@@ -1,7 +1,7 @@
 <template>
   <div class="mw-500 px-4">
-    <h1 class="title">Login</h1>
-    <form @submit.prevent="login">
+    <h1 class="title">Verify Email</h1>
+    <form @submit.prevent="verifyEmail">
       <div class="field">
         <p class="control has-icons-left has-icons-right">
           <input
@@ -15,19 +15,7 @@
           </span>
         </p>
       </div>
-      <div class="field">
-        <p class="control has-icons-left">
-          <input
-            v-model="password"
-            class="input"
-            type="password"
-            placeholder="Password"
-          />
-          <span class="icon is-small is-left">
-            <i class="fas fa-lock"></i>
-          </span>
-        </p>
-      </div>
+
       <div class="field">
         <button
           class="button is-primary"
@@ -44,61 +32,55 @@
         {{ errors }}
       </div>
     </div>
+    <div class="error mt-3" v-if="message">
+      <div class="notification is-primary">
+        <button @click="message = ''" class="delete"></button>
+        {{ message }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { auth } from "../firebase";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+// import { useRouter } from "vue-router";
 
 export default {
   setup() {
-    const router = useRouter();
+    // const router = useRouter();
     const email = ref(null);
     const errors = ref("");
-    const password = ref(null);
+    const message = ref("");
     const isLoading = ref(false);
     // valide the user inputs and return is there are any errors
     const validate = () => {
       if (!email.value || email.value == null)
         errors.value += "valid email is needed | ";
-      if (!password.value || password.value.length <= 6)
-        errors.value += "password must be atleast 6 characters long | ";
     };
 
     // register user into firebase
-    async function login() {
+    async function verifyEmail() {
       isLoading.value = true;
       errors.value = "";
+      message.value = "";
       validate();
-      if (errors.value) {
-        isLoading.value = false;
-        return;
-      }
-      // try signing up
+      console.log("verification started");
       try {
-        const userCredentials = await auth.signInWithEmailAndPassword(
-          email.value,
-          password.value
-        );
-        console.log(userCredentials.user);
-        isLoading.value = false;
-        // if (user.phoneNumber) router.push("dashboard");
-        // else router.push("verify-email");
-        router.push("dashboard");
+        const user = auth.currentUser;
+        const result = await user.sendEmailVerification();
+        console.log(result);
+        message.value += "verified succesfully";
       } catch (error) {
-        // handling errors if any
-        errors.value += error.message || "failed to login | ";
-        console.log(error);
-        isLoading.value = false;
+        errors.value += error.message || "failed to verify contact admin";
+        throw error;
       }
     }
     return {
+      message,
       errors,
-      login,
+      verifyEmail,
       email,
-      password,
       isLoading,
     };
   },

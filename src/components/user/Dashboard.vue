@@ -1,18 +1,16 @@
 <template>
   <div class="mw-800 px-3">
-    <!-- <h1>This is a dashboard</h1> -->
-    <div class="mt-3" v-if="message">
-      <div class="notification is-primary" v-if="message">
-        <button @click="message = ''" class="delete"></button>
-        {{ message }}
-      </div>
-    </div>
+    <h1>Dashboard</h1>
   </div>
 </template>
 
 <script>
+import User from "@/components/User.vue";
 import { ref } from "vue";
 export default {
+  components: {
+    User,
+  },
   setup() {
     const message = ref("welcome to the dashboard");
     return {
