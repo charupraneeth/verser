@@ -24,6 +24,13 @@
       </a>
     </div>
 
+    <!-- <span class="navbar-item">
+      <img
+        src="https://bulma.io/images/bulma-logo.png"
+        width="112"
+        height="28"
+      />
+    </span> -->
     <div
       id="nav-menu"
       class="navbar-menu"
@@ -33,24 +40,35 @@
         <div class="navbar-item">
           <div class="buttons">
             <router-link
+              v-if="!isLoggedIn"
               to="/"
               @click="isActive = false"
               class="button is-light"
               >Home
             </router-link>
 
-            <router-link
+            <!-- <router-link
               to="/login"
               @click="isActive = false"
               class="button is-light"
               >Login
-            </router-link>
+            </router-link> -->
 
             <router-link
               to="/about"
               @click="isActive = false"
               class="button is-light"
               >About
+            </router-link>
+            <button class="button is-light" v-if="isLoggedIn" @click="signout">
+              signout
+            </button>
+            <router-link
+              v-if="isLoggedIn && !user.phone"
+              to="/verify-phone"
+              @click="isActive = false"
+              class="button is-light"
+              >Verify Phone
             </router-link>
           </div>
         </div>
@@ -60,13 +78,22 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { mapActions, mapState } from "vuex";
 export default {
-  setup() {
-    const isActive = ref(false);
+  data: () => {
     return {
-      isActive,
+      isActive: false,
     };
+  },
+  methods: {
+    ...mapActions("auth", ["logout"]),
+    signout() {
+      this.isActive = false;
+      this.logout();
+    },
+  },
+  computed: {
+    ...mapState("auth", ["isLoggedIn", "user"]),
   },
 };
 </script>

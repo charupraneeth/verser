@@ -1,5 +1,5 @@
 <template>
-  <Register />
+  <Register class="container" />
 </template>
 
 <script>
