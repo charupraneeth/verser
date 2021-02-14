@@ -21,6 +21,7 @@
           <div class="media-content">
             <p class="title is-4">{{ user.name }}</p>
             <p class="subtitle is-6">{{ user.email }}</p>
+            <p class="subtitle is-6">{{ user.phone }}</p>
           </div>
         </div>
 
