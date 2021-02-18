@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <button class="button is-primary" @click="login">Sign-In</button>
+  <div class="center-align mt-5">
+    <a @click="login" class="waves-effect waves-light btn-large"
+      ><i class="material-icons left">login</i>signin with google</a
+    >
   </div>
 </template>
 

@@ -2,45 +2,22 @@
   <div>
     <h1>Verify Phone</h1>
     <div>
-      <div class="field">
-        <label for="phone" class="label">Phone</label>
-        <div class="control">
-          <input
-            v-model="phone"
-            id="phone"
-            name="phone"
-            class="input"
-            type="tel"
-            placeholder="912345678"
-            @keypress.enter="sendOtp"
-          />
-        </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">phone</i>
+        <input v-model="phone" id="phone" type="tel" class="validate" />
+        <label for="phone">Telephone</label>
       </div>
-    </div>
-    <!-- <div id="recaptcha"></div> -->
-    <div class="control">
-      <button id="recaptcha-trigger" class="button is-primary">
-        send otp
-      </button>
-    </div>
-
-    <div v-if="isOtpSent">
-      <div class="field">
-        <label for="phone" class="label">OTP</label>
-        <div class="control">
-          <input
-            v-model="otp"
-            id="otp"
-            name="otp"
-            class="input"
-            type="text"
-            placeholder="XXXXXX"
-            @keypress.enter="verifyOtp"
-          />
-        </div>
+      <div class="input-field">
+        <button id="recaptcha-trigger" class="waves-effect waves-light btn">
+          send otp
+        </button>
       </div>
-      <div class="control">
-        <button @click="verifyOtp" class="button is-primary">verify otp</button>
+      <div class="input-field col s6" v-if="isOtpSent">
+        <i class="material-icons prefix">vpn_key</i>
+        <input v-model="otp" id="otp" type="text" class="validate" />
+        <button @click="verifyOtp" class="waves-effect waves-light btn">
+          verify otp
+        </button>
       </div>
     </div>
   </div>
@@ -48,6 +25,7 @@
 
 <script>
 import firebase from "@/firebase";
+import M from "materialize-css";
 export default {
   data: () => {
     return {
@@ -64,7 +42,6 @@ export default {
       try {
         this.isOtpSent = true;
         const phone = "+91" + this.phone;
-        console.log(phone);
         // const confirmationResult = await firebase
         //   .auth()
         //   .signInWithPhoneNumber(phone, window.recaptchaVerifier);
@@ -74,23 +51,31 @@ export default {
           .currentUser.linkWithPhoneNumber(phone, window.recaptchaVerifier);
         // console.log(confirmationResult);
         this.confirmationResult = confirmationResult;
-        console.log("otp sent");
+        M.toast({ html: "OTP sent!" });
       } catch (error) {
         console.log(error);
+        M.toast({ html: error.message || "failed to send OTP" });
       }
     },
 
     // verify otp function
     async verifyOtp() {
-      console.log(this.confirmationResult);
-      const result = await this.confirmationResult.confirm(this.otp);
-      console.log(result);
-      console.log("otp verified");
+      try {
+        // console.log(this.confirmationResult);
+        await this.confirmationResult.confirm(this.otp);
+        // console.log(result);
+        console.log("otp verified");
+        M.toast({ html: "OTP verfied !" });
+        this.$router.push("/");
+      } catch (error) {
+        M.toast({ html: error.message || "failed to verify OTP " });
+      }
     },
   },
 
   // adding the recaptcha widget on mount
   mounted() {
+    console.log(M);
     const that = this;
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       "recaptcha-trigger",
@@ -98,10 +83,12 @@ export default {
         size: "invisible",
         callback: () => {
           console.log("captcha solved", that);
+          M.toast({ html: "Captcha solved !" });
           that.sendOtp();
         },
         "expired-callback": () => {
           console.log("captcha expired");
+          M.toast({ html: "Captcha expired" });
         },
       }
     );

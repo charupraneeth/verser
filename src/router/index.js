@@ -1,34 +1,26 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import Main from "../views/Main.vue";
+// import Main from "../views/Main.vue";
 import firebase from "@/firebase";
 import VerifyPhone from "@/components/Main/VerifyPhone.vue";
-
+import User from "@/components/Main/User.vue";
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
-    meta: {
-      requiresAuth: false,
-    },
   },
 
-  {
-    path: "/main",
-    name: "Main",
-    component: Main,
-    meta: {
-      requiresAuth: true,
-    },
-  },
   {
     path: "/verify-phone",
     name: "VerifyPhone",
     component: VerifyPhone,
-    meta: {
-      requiresAuth: true,
-    },
+  },
+  {
+    path: "/user/:phone",
+    name: "user",
+    component: User,
+    props: true,
   },
   {
     path: "/about",
@@ -45,16 +37,11 @@ const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes,
 });
-
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  if (requiresAuth && !user) {
+  if (to.matched.some((record) => record.meta.requiresLogin) && !user) {
+    // set Vuex state's globalError, then redirect
     next("/");
-  } else if (requiresAuth && user) {
-    next();
-  } else if (!requiresAuth && user) {
-    next("/main");
   } else {
     next();
   }

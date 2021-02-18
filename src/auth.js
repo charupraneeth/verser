@@ -24,7 +24,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         .doc(setUser.id)
         .set(setUser);
       store.commit("auth/setUser", setUser);
-      router.push("main");
+      // router.push("main");
     } else {
       store.commit("auth/setUser", null);
       router.push("/");
