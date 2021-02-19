@@ -51,10 +51,13 @@ export default {
           .currentUser.linkWithPhoneNumber(phone, window.recaptchaVerifier);
         // console.log(confirmationResult);
         this.confirmationResult = confirmationResult;
-        M.toast({ html: "OTP sent!" });
+        M.toast({ html: "OTP sent!", classes: "teal" });
       } catch (error) {
         console.log(error);
-        M.toast({ html: error.message || "failed to send OTP" });
+        M.toast({
+          html: error.message || "failed to send OTP",
+          classes: "red",
+        });
       }
     },
 
@@ -65,10 +68,17 @@ export default {
         await this.confirmationResult.confirm(this.otp);
         // console.log(result);
         console.log("otp verified");
-        M.toast({ html: "OTP verfied !" });
+        M.toast({ html: "OTP verfied !", classes: "teal" });
+        M.toast({
+          html: "You might want to refresh to see changes !",
+          classes: "teal",
+        });
         this.$router.push("/");
       } catch (error) {
-        M.toast({ html: error.message || "failed to verify OTP " });
+        M.toast({
+          html: error.message || "failed to verify OTP ",
+          classes: "red",
+        });
       }
     },
   },
@@ -83,12 +93,12 @@ export default {
         size: "invisible",
         callback: () => {
           console.log("captcha solved", that);
-          M.toast({ html: "Captcha solved !" });
+          M.toast({ html: "Captcha solved !", classes: "teal" });
           that.sendOtp();
         },
         "expired-callback": () => {
           console.log("captcha expired");
-          M.toast({ html: "Captcha expired" });
+          M.toast({ html: "Captcha expired", classes: "red" });
         },
       }
     );

@@ -19,6 +19,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
         phone: user.phoneNumber,
         photo: user.photoURL,
         created_at: user.metadata.creationTime,
+        balance: 50000,
       };
       db.collection("users")
         .doc(setUser.id)

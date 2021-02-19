@@ -4,16 +4,16 @@
     <div class="progress" v-if="userState.loading">
       <div class="indeterminate"></div>
     </div>
-    <div class="card" v-else>
+    <div class="card user-card" v-else>
       <div class="card-image">
         <img :src="userState.data.photo" class="responsive-img avatar m-auto" />
       </div>
-      <div class="card-content">
+      <div class="card-content mw-200px m-auto">
         <p class="card-title">{{ userState.data.name }}</p>
         <p>{{ userState.data.phone }}</p>
         <p>{{ userState.data.email }}</p>
       </div>
-      <div class="card-action">
+      <div class="card-action center">
         <a class="waves-effect waves-light btn"
           ><i class="material-icons">account_balance</i> pay</a
         >

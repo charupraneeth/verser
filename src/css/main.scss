@@ -1,11 +1,33 @@
+.user-card {
+  max-width: 300px;
+  margin: 1rem auto !important;
+}
+.fw-medium {
+  font-weight: 600 !important;
+}
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ml-10px-lg {
+  @media (min-width: 994px) {
+    margin-left: 10px;
+  }
+}
 .m-auto {
-  margin: 0 auto;
+  margin: 0 auto !important;
 }
 
 .mt-5 {
   margin-top: 5rem !important;
 }
-
+.mw-200px {
+  max-width: 200px;
+}
+.mw-300px {
+  max-width: 300px;
+}
 .mw-100 {
   max-width: 100% !important;
 }

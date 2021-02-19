@@ -4,13 +4,18 @@ import Home from "../views/Home.vue";
 import firebase from "@/firebase";
 import VerifyPhone from "@/components/Main/VerifyPhone.vue";
 import User from "@/components/Main/User.vue";
+import Profile from "@/components/Main/Profile.vue";
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
   },
-
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+  },
   {
     path: "/verify-phone",
     name: "VerifyPhone",

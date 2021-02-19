@@ -1,7 +1,7 @@
 <template>
   <nav role="navigation" aria-label="navigation" class="teal mt-2">
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">safepe</a>
+      <a href="#" class="brand-logo ml-10px-lg">safepe</a>
 
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li v-if="isLoggedIn">
@@ -15,7 +15,9 @@
               class="autocomplete"
               @load="loaded()"
             />
-            <label for="autocomplete-input">search users</label>
+            <label for="autocomplete-input" class="white-text"
+              >search users</label
+            >
           </div>
         </li>
         <li>
@@ -24,7 +26,7 @@
             to="/"
             @click="isActive = false"
             class="button is-light"
-            >Home
+            >home
           </router-link>
         </li>
         <li>
@@ -33,7 +35,28 @@
             to="/about"
             @click="isActive = false"
             class="button is-light"
-            >About
+            >about
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            v-if="isLoggedIn"
+            to="/profile"
+            @click="isActive = false"
+            class="button is-light"
+            ><i class="material-icons left">account_circle</i>
+            profile
+          </router-link>
+        </li>
+
+        <li>
+          <router-link
+            v-if="isLoggedIn && !user.phone"
+            to="/verify-phone"
+            @click="isActive = false"
+            class="button is-light"
+            ><i class="material-icons left">perm_phone_msg</i>
+            verify Phone
           </router-link>
         </li>
         <li>
@@ -41,15 +64,6 @@
             <i class="material-icons left">logout</i>
             signout
           </a>
-        </li>
-        <li>
-          <router-link
-            v-if="isLoggedIn && !user.phone"
-            to="/verify-phone"
-            @click="isActive = false"
-            class="button is-light"
-            >Verify Phone
-          </router-link>
         </li>
       </ul>
     </div>
