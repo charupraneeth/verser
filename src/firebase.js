@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/storage";
+import "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBHk4O1yyz67UyWdPBjN0_7iOJ3I18hx2M",
@@ -14,6 +15,17 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
+navigator.serviceWorker
+  .register("firebase-messaging-sw.js", {
+    scope: "firebase-cloud-messaging-push-scope",
+  })
+  .then((registration) => {
+    const messaging = firebase.messaging();
+    messaging.useServiceWorker(registration);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 export default firebase;
 // export const db = firebase.firestore();
 // export const auth = firebase.auth();
