@@ -4,7 +4,7 @@ import router from "./router";
 /*eslint-disable*/
 import users from "@/store/usersCollection";
 import auth from "@/auth";
-// import messaging from "@/messaging";
+import messaging from "@/messaging";
 /*eslint-enable*/
 import "@/css/main.scss";
 

@@ -19,9 +19,12 @@
 </template>
 
 <script>
+// import db from "@/db";
 import { mapState } from "vuex";
 export default {
-  computed: mapState("auth", ["user"]),
+  computed: {
+    ...mapState("auth", ["user"]),
+  },
 };
 </script>
 

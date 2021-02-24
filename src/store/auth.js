@@ -9,11 +9,14 @@ const mutations = {
     if (user) {
       state.user = user;
       state.isLoggedIn = true;
-      console.log(user);
+      // console.log(user);
     } else {
       state.user = {};
       state.isLoggedIn = false;
     }
+  },
+  setPhone(state, phone) {
+    state.user.phone = phone;
   },
 };
 const actions = {

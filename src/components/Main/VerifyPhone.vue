@@ -24,8 +24,10 @@
 </template>
 
 <script>
+import db from "@/db";
 import firebase from "@/firebase";
 import M from "materialize-css";
+import store from "@/store";
 export default {
   data: () => {
     return {
@@ -73,6 +75,12 @@ export default {
           html: "You might want to refresh to see changes !",
           classes: "teal",
         });
+        store.commit("auth/setPhone", "+91" + this.phone);
+        db.collection("users")
+          .doc(store.state.auth.user.id)
+          .update({
+            phone: "+91" + this.phone,
+          });
         this.$router.push("/");
       } catch (error) {
         M.toast({

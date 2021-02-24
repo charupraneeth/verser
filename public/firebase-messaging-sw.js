@@ -1,44 +1,38 @@
-// Scripts for firebase and firebase messaging
-importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js");
+importScripts("https://www.gstatic.com/firebasejs/8.2.9/firebase-app.js");
+importScripts("https://www.gstatic.com/firebasejs/8.2.9/firebase-messaging.js");
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+firebase.initializeApp({
+  apiKey: "AIzaSyBHk4O1yyz67UyWdPBjN0_7iOJ3I18hx2M",
+  authDomain: "safepe-d8e02.firebaseapp.com",
+  projectId: "safepe-d8e02",
+  storageBucket: "safepe-d8e02.appspot.com",
+  messagingSenderId: "580336241671",
+  appId: "1:580336241671:web:b582f252b97f7b341beea2",
+});
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
 
-try {
-  // Initialize the Firebase app in the service worker by passing the generated config
-  const firebaseConfig = {
-    apiKey: "AIzaSyBHk4O1yyz67UyWdPBjN0_7iOJ3I18hx2M",
-    authDomain: "safepe-d8e02.firebaseapp.com",
-    projectId: "safepe-d8e02",
-    storageBucket: "safepe-d8e02.appspot.com",
-    messagingSenderId: "580336241671",
-    appId: "1:580336241671:web:b582f252b97f7b341beea2",
+// If you would like to customize notifications that are received in the
+// background (Web app is closed or not in browser focus) then you should
+// implement this optional method.
+// Keep in mind that FCM will still show notification messages automatically
+// and you should use data messages for custom notifications.
+// For more info see:
+// https://firebase.google.com/docs/cloud-messaging/concept-options
+messaging.onBackgroundMessage(function(payload) {
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload
+  );
+  // Customize notification here
+  const notificationTitle = "Background Message Title";
+  const notificationOptions = {
+    body: "Background Message body.",
+    icon: "/firebase-logo.png",
   };
 
-  firebase.initializeApp(firebaseConfig);
-
-  // Retrieve firebase messaging
-  const messaging = firebase.messaging();
-
-  messaging.setBackgroundMessageHandler(function(payload) {
-    const title = payload.data.username;
-    let iconpath = "";
-
-    const options = {
-      body: payload.data.message,
-      icon: "public/favicon.ico",
-    };
-
-    return self.registration.showNotification(title, options);
-  });
-  // messaging.onBackgroundMessage(function(payload) {
-  //   console.log("Received background message ", payload);
-
-  //   const notificationTitle = payload.notification.title;
-  //   const notificationOptions = {
-  //     body: payload.notification.body,
-  //   };
-
-  //   self.registration.showNotification(notificationTitle, notificationOptions);
-  // });
-} catch (error) {
-  console.log(error);
-}
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});

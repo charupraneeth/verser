@@ -15,17 +15,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-navigator.serviceWorker
-  .register("firebase-messaging-sw.js", {
-    scope: "firebase-cloud-messaging-push-scope",
-  })
-  .then((registration) => {
-    const messaging = firebase.messaging();
-    messaging.useServiceWorker(registration);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 export default firebase;
 // export const db = firebase.firestore();
 // export const auth = firebase.auth();
