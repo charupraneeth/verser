@@ -1,6 +1,6 @@
 import firebase from "@/firebase";
 import M from "materialize-css";
-
+import token from "@/store/token";
 const messaging = firebase.messaging();
 // messaging
 //   .requestPermission()
@@ -36,6 +36,7 @@ messaging
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
       // ...
+      token.value = currentToken;
       console.log(currentToken);
       M.toast({
         html: "Notification enabled successfully",

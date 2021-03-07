@@ -41,7 +41,7 @@
         <li>
           <router-link
             v-if="isLoggedIn"
-            to="/profile"
+            to="/dashboard/profile"
             @click="isActive = false"
             class="button is-light"
             ><i class="material-icons left">account_circle</i>
@@ -52,7 +52,7 @@
         <li>
           <router-link
             v-if="isLoggedIn && !user.phone"
-            to="/verify-phone"
+            to="/dashboard/verify-phone"
             @click="isActive = false"
             class="button is-light"
             ><i class="material-icons left">perm_phone_msg</i>
@@ -93,7 +93,7 @@ export default {
     }
     function searchUser() {
       // console.log("searched", el.value.value);
-      router.push("/user/" + "91" + el.value.value.slice(4));
+      router.push("/dashboard/user/" + "91" + el.value.value.slice(4));
       // console.log(users.value);
       // console.log(instance);
     }

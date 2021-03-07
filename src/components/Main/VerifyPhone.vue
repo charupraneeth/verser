@@ -14,7 +14,13 @@
       </div>
       <div class="input-field col s6" v-if="isOtpSent">
         <i class="material-icons prefix">vpn_key</i>
-        <input v-model="otp" id="otp" type="text" class="validate" />
+        <input
+          v-model="otp"
+          id="otp"
+          type="text"
+          class="validate"
+          placeholder="XXXXXX"
+        />
         <button @click="verifyOtp" class="waves-effect waves-light btn">
           verify otp
         </button>
@@ -81,7 +87,7 @@ export default {
           .update({
             phone: "+91" + this.phone,
           });
-        this.$router.push("/");
+        this.$router.push("/dashboard");
       } catch (error) {
         M.toast({
           html: error.message || "failed to verify OTP ",
@@ -93,7 +99,6 @@ export default {
 
   // adding the recaptcha widget on mount
   mounted() {
-    console.log(M);
     const that = this;
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       "recaptcha-trigger",

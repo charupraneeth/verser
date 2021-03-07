@@ -1,31 +1,66 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
 // import Main from "../views/Main.vue";
-import firebase from "@/firebase";
-import VerifyPhone from "@/components/Main/VerifyPhone.vue";
+// import firebase from "@/firebase";
+// import VerifyPhone from "@/components/Main/VerifyPhone.vue";
 import User from "@/components/Main/User.vue";
+import Dashboard from "@/components/Main/Dashboard.vue";
 import Profile from "@/components/Main/Profile.vue";
+import { computed } from "vue";
+import store from "@/store";
+
+const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
+const user = computed(() => store.state.auth.user);
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home,
+    beforeEnter(to, from, next) {
+      if (isLoggedIn.value && user.value) next({ name: "Dashboard" });
+      else next();
+    },
   },
   {
-    path: "/profile",
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    // beforeEnter(to, from, next) {
+    //   if (!isLoggedIn.value || !user.value) next("/");
+    //   else next();
+    // },
+  },
+  {
+    path: "/dashboard/profile",
     name: "Profile",
     component: Profile,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else next();
+    },
   },
   {
-    path: "/verify-phone",
+    path: "/dashboard/verify-phone",
     name: "VerifyPhone",
-    component: VerifyPhone,
+    component: () =>
+      import(
+        /* webpackChunkName: "VerifyPhone" */ "../components/Main/VerifyPhone.vue"
+      ),
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else if (user.value.phone) next({ name: "Dashboard" });
+      else next();
+    },
   },
   {
-    path: "/user/:phone",
+    path: "/dashboard/user/:phone",
     name: "user",
     component: User,
     props: true,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else next();
+    },
   },
   {
     path: "/about",
@@ -42,13 +77,5 @@ const router = createRouter({
   history: createWebHashHistory(process.env.BASE_URL),
   routes,
 });
-router.beforeEach((to, from, next) => {
-  const user = firebase.auth().currentUser;
-  if (to.matched.some((record) => record.meta.requiresLogin) && !user) {
-    // set Vuex state's globalError, then redirect
-    next("/");
-  } else {
-    next();
-  }
-});
+
 export default router;
