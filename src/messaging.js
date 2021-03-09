@@ -37,7 +37,7 @@ messaging
       // Send the token to your server and update the UI if necessary
       // ...
       token.value = currentToken;
-      console.log(currentToken);
+      // console.log(currentToken);
       M.toast({
         html: "Notification enabled successfully",
         classes: "teal",
@@ -63,3 +63,8 @@ messaging
       classes: "teal",
     });
   });
+
+messaging.onMessage((payload) => {
+  M.toast({ html: "message recieved" });
+  console.log("foreground message ", payload);
+});

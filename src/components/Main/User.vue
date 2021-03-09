@@ -14,7 +14,9 @@
         <p>{{ userState.data.email }}</p>
       </div>
       <div class="card-action center">
-        <a class="waves-effect waves-light btn"
+        <a
+          class="waves-effect waves-light btn"
+          @click="sendMoney(userState.data.token)"
           ><i class="material-icons">account_balance</i> pay</a
         >
       </div>
@@ -30,8 +32,16 @@ export default {
   props: ["phone"],
   setup(props) {
     const userState = useUser(props);
+    async function sendMoney(token) {
+      console.log(token);
+      const response = await fetch(
+        `/.netlify/functions/sendMoney?token=${token}`
+      );
+      console.log(response);
+    }
     return {
       userState,
+      sendMoney,
     };
   },
 };
