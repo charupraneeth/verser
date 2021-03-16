@@ -1,26 +1,34 @@
 <template>
   <div>
     <h1>Transactions</h1>
-    <!-- <pre>{{
-      transactions.sort((a, b) => new Date(a.created) - new Date(b.created))
-    }}</pre> -->
-    <div
-      class="card-container"
-      v-for="transaction in transactions.sort(
-        (a, b) => new Date(a.created) - new Date(b.created)
-      )"
-      :key="transaction.created"
-    >
-      <div class="card blue-grey darken-1">
-        <div class="card-content white-text">
-          <span>status : </span>
-          <span class="card-title">pending</span>
-          <span>From : </span>
-          <span class="card-title">{{ transaction.from.name }}</span>
-          <span>To : </span>
-          <span class="card-title">{{ transaction.to.name }}</span>
-          <p>Amount : {{ transaction.amount }}</p>
-          <span>Time : {{ transaction.created }}</span>
+    <!-- <pre>{{ transactions }}</pre> -->
+    <div v-if="!transactions.length">
+      <h5>No transactions performed</h5>
+    </div>
+    <div v-else>
+      <div
+        class="card-container"
+        v-for="transaction in transactions.sort(
+          (a, b) => new Date(a.created) - new Date(b.created)
+        )"
+        :key="transaction.id"
+      >
+        <div class="card blue-grey darken-1">
+          <div class="card-content white-text">
+            <span>status : </span>
+            <span class="card-title">{{ transaction.status }}</span>
+            <span>From : </span>
+            <span class="card-title">{{ transaction.from.name }}</span>
+            <span>To : </span>
+            <span class="card-title">{{ transaction.to.name }}</span>
+            <p>Amount : {{ transaction.amount }}</p>
+            <span>Time : {{ transaction.created }}</span>
+          </div>
+          <div class="card-action" v-if="transaction.status == 'pending'">
+            <a :href="`/#/dashboard/transaction/${transaction.id}`"
+              >go to transaction</a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -29,6 +37,7 @@
 
 <script>
 // import firebase from "@/firebase";
+import M from "materialize-css";
 import store from "@/store";
 import db from "@/db";
 import { ref, computed, watch } from "vue";
@@ -37,10 +46,24 @@ export default {
     const userId = computed(() => store.state.auth.user.id);
     const transactions = ref([]);
 
-    function dateConvertedObject(param) {
-      const obj = param;
-      obj.created = obj.created.toDate().toString();
-      return obj;
+    async function dateConvertedObject(details, id, doc) {
+      try {
+        const obj = details;
+        if (
+          new Date() - obj.created.toDate() > 300000 &&
+          details.status == "pending"
+        ) {
+          await doc.ref.update({ status: "failed" });
+          obj.status = "failed";
+        }
+        // console.log(new Date() - obj.created.toDate());
+        obj.created = obj.created.toDate().toString();
+        obj.id = id;
+        return obj;
+      } catch (error) {
+        console.log(error);
+        M.toast({ html: error.message });
+      }
     }
     watch(
       userId,
@@ -49,16 +72,26 @@ export default {
         db.collection("transactions")
           .where("from.id", "==", userId.value)
           .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
+            querySnapshot.forEach(async (doc) => {
               // obj.created = obj.created.seconds.toDate();
-              transactions.value.push(dateConvertedObject(doc.data()));
+              if (transactions.value.map((t) => t.id).indexOf(doc.id) !== -1) {
+                transactions.value.pop(doc.id);
+              }
+              transactions.value.push(
+                await dateConvertedObject(doc.data(), doc.id, doc)
+              );
             });
           });
         db.collection("transactions")
           .where("to.id", "==", userId.value)
           .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              transactions.value.push(dateConvertedObject(doc.data()));
+            querySnapshot.forEach(async (doc) => {
+              if (transactions.value.map((t) => t.id).indexOf(doc.id) !== -1) {
+                transactions.value.pop(doc.id);
+              }
+              transactions.value.push(
+                await dateConvertedObject(doc.data(), doc.id, doc)
+              );
             });
           });
       },

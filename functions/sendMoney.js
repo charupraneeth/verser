@@ -4,9 +4,10 @@ exports.handler = async (event, context) => {
   const admin = require("firebase-admin");
   const serviceAccount = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
 
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
+  if (!admin.apps.length)
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
 
   const db = admin.firestore();
   const { to, from, amount, name } = JSON.parse(event.body);
@@ -16,6 +17,7 @@ exports.handler = async (event, context) => {
       from,
       amount: parseInt(amount),
       created: admin.firestore.Timestamp.now(),
+      status: "pending",
     });
     const id = transactionRef.id;
     const details = (await transactionRef.get()).data();
