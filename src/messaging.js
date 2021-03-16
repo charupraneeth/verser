@@ -1,6 +1,7 @@
 import firebase from "@/firebase";
 import M from "materialize-css";
 import token from "@/store/token";
+// import router from "@/router";
 const messaging = firebase.messaging();
 // messaging
 //   .requestPermission()

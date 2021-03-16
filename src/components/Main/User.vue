@@ -13,6 +13,16 @@
         <p>{{ userState.data.phone }}</p>
         <p>{{ userState.data.email }}</p>
       </div>
+      <div class="input-field container">
+        <input
+          id="amount"
+          type="number"
+          step="any"
+          class="validate"
+          v-model="amount"
+        />
+        <label for="amount">Amount to pay</label>
+      </div>
       <div class="card-action center">
         <a
           class="waves-effect waves-light btn"
@@ -26,22 +36,48 @@
 
 <script>
 import useUser from "@/hooks/useUser";
-// import M from "materialize-css";
+import axios from "axios";
+import { computed, ref } from "vue";
+import store from "@/store";
+import M from "materialize-css";
 // import { computed } from "vue";
 export default {
   props: ["phone"],
   setup(props) {
     const userState = useUser(props);
+    const amount = ref("");
     async function sendMoney(token) {
       console.log(token);
-      const response = await fetch(
-        `/.netlify/functions/sendMoney?token=${token}`
-      );
-      console.log(response);
+      const user = computed(() => store.state.auth.user);
+      const data = {
+        to: {
+          name: userState.data.name,
+          id: userState.data.id,
+          phone: userState.data.phone,
+        },
+        from: {
+          name: user.value.name,
+          id: user.value.id,
+          phone: user.value.phone,
+        },
+        amount: amount.value,
+      };
+      try {
+        const response = await axios.post(
+          `/.netlify/functions/sendMoney?token=${token}`,
+          data
+        );
+        console.log("client response:", response.data.transaction);
+        M.toast({ html: response.data.message || "transaction successful" });
+      } catch (error) {
+        console.log(error);
+        M.toast({ html: error.message || "transaction failed" });
+      }
     }
     return {
       userState,
       sendMoney,
+      amount,
     };
   },
 };

@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-
+/functions/safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json
 
 # local env files
 .env

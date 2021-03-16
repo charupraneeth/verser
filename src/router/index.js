@@ -6,6 +6,8 @@ import Home from "../views/Home.vue";
 import User from "@/components/Main/User.vue";
 import Dashboard from "@/components/Main/Dashboard.vue";
 import Profile from "@/components/Main/Profile.vue";
+import Transactions from "@/components/Main/Transactions.vue";
+import Transaction from "@/components/Main/CurrentTransaction.vue";
 import { computed } from "vue";
 import store from "@/store";
 
@@ -25,15 +27,34 @@ const routes = [
     path: "/dashboard",
     name: "Dashboard",
     component: Dashboard,
-    // beforeEnter(to, from, next) {
-    //   if (!isLoggedIn.value || !user.value) next("/");
-    //   else next();
-    // },
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next("/");
+      else next();
+    },
   },
   {
     path: "/dashboard/profile",
     name: "Profile",
     component: Profile,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else next();
+    },
+  },
+  {
+    path: "/dashboard/transactions",
+    name: "Transactions",
+    component: Transactions,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else next();
+    },
+  },
+  {
+    path: "/dashboard/transaction/:id",
+    name: "Transaction",
+    component: Transaction,
+    props: true,
     beforeEnter(to, from, next) {
       if (!isLoggedIn.value || !user.value) next({ name: "Home" });
       else next();
@@ -73,8 +94,9 @@ const routes = [
   },
 ];
 
+console.log(process.env.BASE_URL);
 const router = createRouter({
-  history: createWebHashHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes,
 });
 

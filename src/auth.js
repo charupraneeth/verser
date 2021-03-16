@@ -9,7 +9,7 @@ import token from "./store/token";
 
 firebase.auth().onAuthStateChanged(async function(user) {
   try {
-    console.log(user);
+    // console.log(user);
     if (user) {
       if (user.user) {
         /* eslint-disable */
@@ -29,9 +29,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           }
           store.commit("auth/setUser", setUser);
         });
-
         console.log("h1");
-        router.push("dashboard");
       } else {
         // new user
         const setUser = {

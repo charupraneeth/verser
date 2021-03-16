@@ -23,9 +23,10 @@ export default function useUser(props) {
       const res = [];
       docRef.forEach((user) => res.push(user.data()));
       userState.data = res[0];
-      if (!res[0])
+      if (!res[0]) {
         userState.error = "user not found | verify the number before search";
-      M.toast({ html: userState.error });
+        M.toast({ html: userState.error });
+      }
     } catch (error) {
       userState.error = error.message || "error fetching user data";
       console.log(error);

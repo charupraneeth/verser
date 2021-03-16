@@ -19,6 +19,12 @@ const mutations = {
     state.user.phone = phone;
   },
 };
+
+const getters = {
+  getId: (state) => {
+    return state.user.id;
+  },
+};
 const actions = {
   async login() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -35,5 +41,6 @@ export default {
   namespaced: true,
   state,
   actions,
+  getters,
   mutations,
 };
