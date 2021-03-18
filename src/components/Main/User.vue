@@ -23,7 +23,7 @@
         />
         <label for="amount">Amount to pay</label>
       </div>
-      <div class="card-action center">
+      <div class="card-action center" v-show="!isDisabled">
         <a
           class="waves-effect waves-light btn"
           @click="sendMoney(userState.data.token)"
@@ -40,13 +40,16 @@ import axios from "axios";
 import { computed, ref } from "vue";
 import store from "@/store";
 import M from "materialize-css";
+import router from "../../router";
 // import { computed } from "vue";
 export default {
   props: ["phone"],
   setup(props) {
     const userState = useUser(props);
     const amount = ref("");
+    const isDisabled = ref(false);
     async function sendMoney(token) {
+      isDisabled.value = true;
       console.log(token);
       const user = computed(() => store.state.auth.user);
       const data = {
@@ -61,6 +64,7 @@ export default {
           phone: user.value.phone,
         },
         amount: amount.value,
+        status: "pending",
       };
       try {
         const response = await axios.post(
@@ -68,7 +72,13 @@ export default {
           data
         );
         console.log("client response:", response.data.transaction);
-        M.toast({ html: response.data.message || "transaction successful" });
+        if (response.data.transaction.id) {
+          isDisabled.value = false;
+        }
+        router.push("/dashboard/transaction/" + response.data.transaction.id);
+        M.toast({
+          html: response.data.message || "transaction successfully initiated",
+        });
       } catch (error) {
         console.log(error);
         M.toast({ html: error.message || "transaction failed" });
@@ -78,6 +88,7 @@ export default {
       userState,
       sendMoney,
       amount,
+      isDisabled,
     };
   },
 };

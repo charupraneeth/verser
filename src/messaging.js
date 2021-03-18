@@ -1,7 +1,7 @@
 import firebase from "@/firebase";
 import M from "materialize-css";
 import token from "@/store/token";
-// import router from "@/router";
+import router from "@/router";
 const messaging = firebase.messaging();
 // messaging
 //   .requestPermission()
@@ -67,5 +67,8 @@ messaging
 
 messaging.onMessage((payload) => {
   M.toast({ html: "message recieved" });
+  const click_action = payload.notification.click_action.split("/");
+  const transactionId = click_action[click_action.length - 1];
+  router.push(`/dashboard/transaction/${transactionId}`);
   console.log("foreground message ", payload);
 });

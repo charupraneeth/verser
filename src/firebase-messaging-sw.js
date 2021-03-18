@@ -32,7 +32,8 @@ messaging.onBackgroundMessage(function(payload) {
   const notificationOptions = {
     body: payload.notification.body,
     icon: "./favicon.ico",
-    // data: { url: payload.data.click_action },
+    click_action: payload.data.click_action,
+    data: { id: payload.data.id },
     // actions: [{ action: "open_url", title: "Read Now" }],
   };
   const priority = "high";

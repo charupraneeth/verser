@@ -1,57 +1,83 @@
 <template>
-  <div v-if="!isSender">
+  <!-- <pre>{{ doc.data().status }}</pre> -->
+  <div v-if="!isSender && isReciever">
     <h1>Current-Transaction</h1>
     <h4>id: {{ props.id }}</h4>
-    <button class="btn" @click="accept">accept</button>
-    <button class="btn" @click="reject">reject</button>
+    <button class="waves-effect waves-light btn" @click="accept">
+      accept
+    </button>
+    <button class="waves-effect waves-light btn" @click="reject">
+      reject
+    </button>
   </div>
-  <div v-else>
+
+  <div v-else-if="isSender && !isReciever">
     <div class="progress">
       <div class="indeterminate"></div>
     </div>
   </div>
+  <div v-else>
+    <h4>404 not found</h4>
+  </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import db from "@/db";
-import firebase from "@/firebase";
 import store from "@/store";
+import axios from "axios";
+import M from "materialize-css";
+import router from "../../router";
 export default {
   setup(props) {
     const isSender = ref(true);
+    const isReciever = ref(false);
     const doc = ref(null);
-    db.collection("transactions")
-      .doc(props.id)
-      .onSnapshot((query) => {
-        isSender.value = query.data().from.id == store.state.auth.user.id;
-        doc.value = query;
-      });
-    function accept() {
-      // const transaction = doc.value.data();
-      // const increment = firebase.firestore.FieldValue.increment(
-      //   transaction.amount
-      // );
-
-      // const decrement = firebase.firestore.FieldValue.decrement(
-      //   transaction.amount
-      // );
-      // db.collection("users")
-      //   .doc(doc.value.data().to.id)
-      //   .update({ balance: increment });
-      db.collection("users")
-        .doc(doc.value.data().from.id)
-        .update({ balance: decrement });
+    async function accept() {
+      const data = {
+        to: doc.value.data().to,
+        from: doc.value.data().from,
+        amount: doc.value.data().amount,
+        status: "successful",
+      };
+      try {
+        const response = await axios.post(
+          `/.netlify/functions/sendMoney`,
+          data
+        );
+        console.log("client response:", response.data);
+        M.toast({ html: response.data.message || "transaction successful" });
+      } catch (error) {
+        console.log(error);
+        M.toast({ html: error.message || "transaction failed" });
+      }
       doc.value.ref.update({ status: "success" });
+      router.push("/dashboard");
     }
     function reject() {
       doc.value.ref.update({ status: "failed" });
+      router.push("/dashboard");
     }
+
+    onMounted(() => {
+      db.collection("transactions")
+        .doc(props.id)
+        .onSnapshot((query) => {
+          isSender.value = query.data().from.id == store.state.auth.user.id;
+          isReciever.value = query.data().to.id == store.state.auth.user.id;
+          if (query.data().status !== "pending") {
+            router.push("/dashboard");
+            M.toast({ html: "transaction completed/expired" });
+          }
+          doc.value = query;
+        });
+    });
     return {
       props,
       isSender,
       accept,
       reject,
+      isReciever,
     };
   },
   props: ["id"],

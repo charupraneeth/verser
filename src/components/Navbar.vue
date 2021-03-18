@@ -59,6 +59,7 @@
             class="button is-light sidenav-close"
             ><i class="material-icons left">account_balance</i>
             transactions
+            <span v-if="isPendingTransactions">🎈</span>
           </router-link>
         </li>
         <li>
@@ -129,8 +130,8 @@
         to="/dashboard/transactions"
         @click="isActive = false"
         class="button is-light sidenav-close"
-        ><i class="material-icons left">account_balance</i>
-        transactions
+        ><i class="material-icons left">account_balance</i> transactions
+        <span v-if="isPendingTransactions">🎈</span>
       </router-link>
     </li>
     <li>
@@ -175,6 +176,7 @@
 
 <script>
 import M from "materialize-css";
+import isPendingTransactions from "@/store/isPendingTransactions";
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
@@ -256,18 +258,9 @@ export default {
       el,
       phone,
       searchUser,
+      isPendingTransactions,
     };
   },
-
-  // mounted() {
-  //   this.instance = M.Autocomplete.init(this.$refs.autocompleteElement, {
-  //     data: {
-  //       "0000000000": null,
-  //       "111": null,
-  //     },
-  //   });
-  //   console.log(this.instance);
-  // },
 };
 </script>
 

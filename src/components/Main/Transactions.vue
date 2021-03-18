@@ -9,7 +9,7 @@
       <div
         class="card-container"
         v-for="transaction in transactions.sort(
-          (a, b) => new Date(a.created) - new Date(b.created)
+          (a, b) => new Date(b.created) - new Date(a.created)
         )"
         :key="transaction.id"
       >
@@ -40,7 +40,8 @@
 import M from "materialize-css";
 import store from "@/store";
 import db from "@/db";
-import { ref, computed, watch } from "vue";
+import isPendingTransactions from "@/store/isPendingTransactions";
+import { ref, computed, watch, onMounted } from "vue";
 export default {
   setup() {
     const userId = computed(() => store.state.auth.user.id);
@@ -97,6 +98,9 @@ export default {
       },
       { immediate: true }
     );
+    onMounted(() => {
+      isPendingTransactions.value = isPendingTransactions.value ? false : true;
+    });
     return {
       transactions,
     };
