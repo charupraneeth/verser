@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <pre>{{ userState }}</pre> -->
     <div class="progress" v-if="userState.loading">
       <div class="indeterminate"></div>
     </div>

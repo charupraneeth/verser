@@ -1,6 +1,7 @@
 <template>
   <div class="row">
-    <div class="col s12 m7">
+    <div class="col s12">
+      <h4>Profile</h4>
       <div class="card">
         <div class="card-image">
           <img

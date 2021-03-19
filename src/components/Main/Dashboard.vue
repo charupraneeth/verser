@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Dashboard</h1>
+    <h4>Dashboard</h4>
     <div>
       <div class="card yellow darken-1">
         <div class="card-content grey-text text-lighten-5 fw-medium">

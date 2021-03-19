@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="container">
+    <div class="container sidenav-padding">
       <router-view />
     </div>
   </div>

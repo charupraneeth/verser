@@ -1,6 +1,8 @@
 import { reactive, watch } from "vue";
 import db from "../db";
 import M from "materialize-css";
+import firebase from "@/firebase";
+import router from "@/router";
 
 const userState = reactive({
   loading: true,
@@ -11,6 +13,12 @@ const userState = reactive({
 export default function useUser(props) {
   async function loadData() {
     try {
+      const currentUser = firebase.auth().currentUser;
+      if (currentUser && currentUser.phoneNumber == "+" + props.phone) {
+        router.push("/dashboard");
+        M.toast({ html: "you cannot pay yourself" });
+      }
+
       userState.loading = true;
       userState.error = "";
       userState.data = {};

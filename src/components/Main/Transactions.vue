@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Transactions</h1>
+    <h4>Transactions</h4>
     <!-- <pre>{{ transactions }}</pre> -->
     <div v-if="!transactions.length">
       <h5>No transactions performed</h5>

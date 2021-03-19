@@ -1,116 +1,35 @@
 <template>
-  <nav role="navigation" aria-label="navigation" class="teal mt-2">
+  <nav
+    role="navigation"
+    aria-label="navigation"
+    class="teal mt-2  sidenav-padding"
+  >
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo ml-10px-lg">safepe</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"
+      <a href="#" class="brand-logo ml-10px-lg center">safepe</a>
+      <a href="#" data-target="sidenav" class="sidenav-trigger "
         ><i class="material-icons">menu</i></a
       >
-      <ul class="right hide-on-med-and-down">
-        <li v-if="isLoggedIn">
-          <div class="input-field">
-            <i class="material-icons prefix">search</i>
-            <input
-              v-model="phone"
-              ref="el"
-              type="text"
-              id="autocomplete-input"
-              class="autocomplete"
-              @load="loaded()"
-            />
-            <label for="autocomplete-input" class="white-text"
-              >search users</label
-            >
-          </div>
-        </li>
-        <li>
-          <router-link
-            v-if="!isLoggedIn"
-            to="/"
-            @click="isActive = false"
-            class="button is-light"
-            >home
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            v-if="!isLoggedIn"
-            to="/about"
-            @click="isActive = false"
-            class="button is-light"
-            >about
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            v-if="isLoggedIn"
-            to="/dashboard"
-            @click="isActive = false"
-            class="button is-light sidenav-close"
-            ><i class="material-icons left">dashboard</i>
-            dashboard
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            v-if="isLoggedIn"
-            to="/dashboard/transactions"
-            @click="isActive = false"
-            class="button is-light sidenav-close"
-            ><i class="material-icons left">account_balance</i>
-            transactions
-            <span v-if="isPendingTransactions">🎈</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link
-            v-if="isLoggedIn"
-            to="/dashboard/profile"
-            @click="isActive = false"
-            class="button is-light"
-            ><i class="material-icons left">account_circle</i>
-            profile
-          </router-link>
-        </li>
-
-        <li>
-          <router-link
-            v-if="isLoggedIn && !user.phone"
-            to="/dashboard/verify-phone"
-            @click="isActive = false"
-            class="button is-light"
-            ><i class="material-icons left">perm_phone_msg</i>
-            verify Phone
-          </router-link>
-        </li>
-        <li>
-          <a v-if="isLoggedIn" @click="signout">
-            <i class="material-icons left">logout</i>
-            signout
-          </a>
-        </li>
-      </ul>
     </div>
   </nav>
 
-  <ul class="sidenav" id="mobile-demo">
-    <!-- <li v-if="isLoggedIn">
-      <div class="input-field col s6">
+  <ul class="sidenav sidenav-fixed" id="sidenav">
+    <li v-if="isLoggedIn">
+      <div class="input-field col s6 autocomplete-wrapper">
         <input
-          ref="elMobile"
+          ref="autoCompleteElement"
           v-model="phone"
-          id="autocomplete-mobile"
+          class="autocomplete"
           type="text"
+          id="autocomplete"
           autocomplete="off"
         />
-        <label for="autocomplete-mobile">search</label>
+        <label for="autocomplete">search</label>
       </div>
-    </li> -->
+    </li>
     <li>
       <router-link
         v-if="!isLoggedIn"
         to="/"
-        @click="isActive = false"
         class="button is-light sidenav-close"
         >home
       </router-link>
@@ -119,7 +38,6 @@
       <router-link
         v-if="!isLoggedIn"
         to="/about"
-        @click="isActive = false"
         class="button is-light sidenav-close"
         >about
       </router-link>
@@ -127,18 +45,7 @@
     <li>
       <router-link
         v-if="isLoggedIn"
-        to="/dashboard/transactions"
-        @click="isActive = false"
-        class="button is-light sidenav-close"
-        ><i class="material-icons left">account_balance</i> transactions
-        <span v-if="isPendingTransactions">🎈</span>
-      </router-link>
-    </li>
-    <li>
-      <router-link
-        v-if="isLoggedIn"
         to="/dashboard"
-        @click="isActive = false"
         class="button is-light sidenav-close"
         ><i class="material-icons left">dashboard</i>
         dashboard
@@ -147,8 +54,17 @@
     <li>
       <router-link
         v-if="isLoggedIn"
+        to="/dashboard/transactions"
+        class="button is-light sidenav-close"
+        ><i class="material-icons left">account_balance</i> transactions
+        <span v-if="isPendingTransactions">🎈</span>
+      </router-link>
+    </li>
+
+    <li>
+      <router-link
+        v-if="isLoggedIn"
         to="/dashboard/profile"
-        @click="isActive = false"
         class="button is-light sidenav-close"
         ><i class="material-icons left">account_circle</i>
         profile
@@ -159,7 +75,6 @@
       <router-link
         v-if="isLoggedIn && !user.phone"
         to="/dashboard/verify-phone"
-        @click="isActive = false"
         class="button is-light sidenav-close"
         ><i class="material-icons left">perm_phone_msg</i>
         verify Phone
@@ -185,29 +100,44 @@ export default {
   setup() {
     const store = useStore();
     const isActive = ref(false);
-    const el = ref(null);
+    const autoCompleteElement = ref(null);
     const phone = ref("");
     const router = useRouter();
     let ins;
-    // const users = computed(()=>)
-    let instance;
+    let autoCompleteInstance;
     const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
     const user = computed(() => store.state.auth.user);
     function signout() {
-      isActive.value = false;
       store.dispatch("auth/logout");
     }
-    function searchUser() {
+    function searchUser(ac) {
       // console.log("searched", el.value.value);
-      router.push("/dashboard/user/" + "91" + el.value.value.slice(4));
+      router.push(
+        "/dashboard/user/" + "91" + autoCompleteElement.value.value.slice(4)
+      );
       // console.log(users.value);
       // console.log(instance);
     }
+    function initAutocomplete(ac) {
+      autoCompleteInstance = M.Autocomplete.init(ac.value, {
+        data: {},
+        onAutocomplete: () => {
+          searchUser(ac);
+
+          // close sidenav on autocomplete in devices width smaller that 992px
+          if (window.innerWidth <= 992) ins[0].close();
+
+          ac.value.value = "";
+          ac.value.blur();
+        },
+      });
+    }
     onMounted(() => {
-      console.log(el.value);
+      watch(autoCompleteElement, () => {
+        initAutocomplete(autoCompleteElement);
+      });
       const elems = document.querySelectorAll(".sidenav");
       ins = M.Sidenav.init(elems, {});
-      console.log(ins);
       //autocomplete functionality
       function getUsers() {
         if (phone.value.length < 2) return;
@@ -215,47 +145,22 @@ export default {
           acc["+91 " + phone.slice(3)] = null;
           return acc;
         }, {});
-        if (!instance) {
-          instance = M.Autocomplete.init(el.value, {
-            data: searchTerms,
-            onAutocomplete: () => {
-              ins[0].close();
-              searchUser();
-              el.value.value = "";
-              el.value.blur();
-            },
-          });
-          instance.open();
-        } else {
-          instance.updateData(searchTerms);
-        }
+        autoCompleteInstance.updateData(searchTerms);
       }
-      instance = M.Autocomplete.init(el.value, {
-        data: {},
-        onAutocomplete: () => {
-          ins[0].close();
-          searchUser();
-          el.value.value = "";
-          el.value.blur();
-        },
-      });
       let debounceTimer;
-      watch(
-        () => phone.value,
-        () => {
-          clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(async () => {
-            getUsers();
-          }, 400);
-        }
-      );
+      watch(phone, () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(async () => {
+          getUsers();
+        }, 400);
+      });
     });
+
     return {
-      isActive,
       isLoggedIn,
       user,
       signout,
-      el,
+      autoCompleteElement,
       phone,
       searchUser,
       isPendingTransactions,
@@ -265,7 +170,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blue {
-  background-color: blue;
+#sidenav {
+  padding-top: 10px;
+}
+.autocomplete-wrapper {
+  padding: 0 10px;
+  margin: 0 10px;
 }
 </style>
