@@ -10,7 +10,6 @@ exports.handler = async (event, context) => {
     });
 
   const db = admin.firestore();
-  console.log(event);
   // extracting transaction creadentials from request body
   const { to, from, amount, status } = JSON.parse(event.body);
 

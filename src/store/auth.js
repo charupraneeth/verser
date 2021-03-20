@@ -1,4 +1,5 @@
 import firebase from "@/firebase";
+import router from "../router";
 import db from "../db";
 const state = {
   user: {},
@@ -34,9 +35,12 @@ const actions = {
   },
 
   async logout({ _, state }) {
-    db.collection("users")
-      .doc(state.user.id)
-      .update({ signed_in: false });
+    if (state.isLoggedIn) {
+      db.collection("users")
+        .doc(state.user.id)
+        .update({ signed_in: false });
+      console.log("logged in user log out");
+    }
     await firebase.auth().signOut();
   },
 };

@@ -19,11 +19,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
       }
       // if returning user
       if (!(user.metadata.creationTime == user.metadata.lastSignInTime)) {
+        console.log("h1");
         //get details from db and set state
         const docRef = db.collection("users").doc(user.uid);
-        docRef.onSnapshot((doc) => {
+        docRef.get().then((doc) => {
           let setUser = doc.data();
-          if (setUser.signed_in && setUser.token !== token.value) {
+          if (setUser && setUser.signed_in && setUser.token !== token.value) {
             M.toast({
               html:
                 "user already logged in other session,sign out there to continue here",
@@ -31,14 +32,13 @@ firebase.auth().onAuthStateChanged(async function(user) {
             store.dispatch("auth/logout");
             return;
           }
-          if (token.value && token.value != setUser.token) {
-            docRef.update({
-              token: token.value,
-            });
-          }
+
+          docRef.update({
+            token: token.value,
+            signed_in: true,
+          });
           store.commit("auth/setUser", setUser);
         });
-        console.log("h1");
       } else {
         // new user
         const setUser = {

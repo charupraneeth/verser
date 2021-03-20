@@ -3,6 +3,9 @@
   <div v-if="!isSender && isReciever">
     <h1>Current-Transaction</h1>
     <h4>id: {{ props.id }}</h4>
+    <h4>Amount : {{ doc.data().amount }}</h4>
+    <h4>From : {{ doc.data().from.name }}</h4>
+    <h5>@phone : {{ doc.data().from.phone }}</h5>
     <button class="waves-effect waves-light btn mr-2" @click="accept">
       accept
     </button>
@@ -76,6 +79,7 @@ export default {
         });
     });
     return {
+      doc,
       props,
       isSender,
       accept,

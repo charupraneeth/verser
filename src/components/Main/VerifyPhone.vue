@@ -78,14 +78,14 @@ export default {
         console.log("otp verified");
         M.toast({ html: "OTP verfied !", classes: "teal" });
         store.commit("auth/setPhone", "+91" + this.phone);
-        db.collection("users")
+        await db
+          .collection("users")
           .doc(store.state.auth.user.id)
           .update({
             phone: "+91" + this.phone,
           });
         store.dispatch("auth/logout");
         M.toast({ html: "signin again to get started" });
-        this.$router.push("/");
       } catch (error) {
         M.toast({
           html: error.message || "failed to verify OTP ",

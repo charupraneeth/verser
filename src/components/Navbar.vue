@@ -27,17 +27,26 @@
       </div>
     </li>
     <li>
-      <router-link v-if="!isLoggedIn" to="/" class="button is-light "
+      <router-link
+        v-if="!isLoggedIn"
+        to="/"
+        class="button is-light sidenav-close"
         >home
       </router-link>
     </li>
     <li>
-      <router-link v-if="!isLoggedIn" to="/about" class="button is-light "
+      <router-link
+        v-if="!isLoggedIn"
+        to="/about"
+        class="button is-light sidenav-close"
         >about
       </router-link>
     </li>
     <li>
-      <router-link v-if="isLoggedIn" to="/dashboard" class="button is-light "
+      <router-link
+        v-if="isLoggedIn"
+        to="/dashboard"
+        class="button is-light sidenav-close"
         ><i class="material-icons left">dashboard</i>
         dashboard
       </router-link>
@@ -46,7 +55,7 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/transactions"
-        class="button is-light "
+        class="button is-light sidenav-close"
         ><i class="material-icons left">account_balance</i> transactions
         <span v-if="isPendingTransactions">🎈</span>
       </router-link>
@@ -56,7 +65,7 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/profile"
-        class="button is-light "
+        class="button is-light sidenav-close"
         ><i class="material-icons left">account_circle</i>
         profile
       </router-link>
@@ -66,7 +75,7 @@
       <router-link
         v-if="isLoggedIn && !user.phone"
         to="/dashboard/verify-phone"
-        class="button is-light "
+        class="button is-light sidenav-close"
         ><i class="material-icons left">perm_phone_msg</i>
         verify Phone
       </router-link>
@@ -75,7 +84,7 @@
       <a
         v-if="isLoggedIn"
         @click="signout"
-        class="button is-light"
+        class="button is-light sidenav-close"
         style="cursor:pointer"
       >
         <i class="material-icons left">logout</i>
@@ -86,15 +95,14 @@
 </template>
 
 <script>
+import store from "@/store";
 import M from "materialize-css";
 import isPendingTransactions from "@/store/isPendingTransactions";
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted, watch } from "vue";
-import { useStore } from "vuex";
 import users from "@/store/usersCollection";
 export default {
   setup() {
-    const store = useStore();
     const autoCompleteElement = ref(null);
     const phone = ref("");
     const router = useRouter();
@@ -102,7 +110,6 @@ export default {
     let autoCompleteInstance; // sidenav instance
     const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
     const user = computed(() => store.state.auth.user);
-
     // get tiggered when user click signout
     function signout() {
       store.dispatch("auth/logout");

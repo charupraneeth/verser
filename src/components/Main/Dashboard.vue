@@ -10,7 +10,7 @@
           </div>
           <p>
             balance : &#8377;
-            {{ user.balance }}
+            {{ balance }}
           </p>
         </div>
       </div>
@@ -19,11 +19,29 @@
 </template>
 
 <script>
-// import db from "@/db";
-import { mapState } from "vuex";
+import { computed, ref, watch } from "vue";
+import store from "../../store";
+import db from "../../db";
+
 export default {
-  computed: {
-    ...mapState("auth", ["user"]),
+  setup() {
+    const balance = ref("######");
+    const userId = computed(() => store.state.auth.user.id);
+    watch(
+      userId,
+      () => {
+        if (!userId.value) return;
+        db.collection("users")
+          .doc(userId.value)
+          .onSnapshot((doc) => {
+            balance.value = doc.data().balance;
+          });
+      },
+      { immediate: true }
+    );
+    return {
+      balance,
+    };
   },
 };
 </script>
