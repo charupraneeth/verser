@@ -27,26 +27,17 @@
       </div>
     </li>
     <li>
-      <router-link
-        v-if="!isLoggedIn"
-        to="/"
-        class="button is-light sidenav-close"
+      <router-link v-if="!isLoggedIn" to="/" class="button is-light "
         >home
       </router-link>
     </li>
     <li>
-      <router-link
-        v-if="!isLoggedIn"
-        to="/about"
-        class="button is-light sidenav-close"
+      <router-link v-if="!isLoggedIn" to="/about" class="button is-light "
         >about
       </router-link>
     </li>
     <li>
-      <router-link
-        v-if="isLoggedIn"
-        to="/dashboard"
-        class="button is-light sidenav-close"
+      <router-link v-if="isLoggedIn" to="/dashboard" class="button is-light "
         ><i class="material-icons left">dashboard</i>
         dashboard
       </router-link>
@@ -55,7 +46,7 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/transactions"
-        class="button is-light sidenav-close"
+        class="button is-light "
         ><i class="material-icons left">account_balance</i> transactions
         <span v-if="isPendingTransactions">🎈</span>
       </router-link>
@@ -65,7 +56,7 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/profile"
-        class="button is-light sidenav-close"
+        class="button is-light "
         ><i class="material-icons left">account_circle</i>
         profile
       </router-link>
@@ -75,13 +66,18 @@
       <router-link
         v-if="isLoggedIn && !user.phone"
         to="/dashboard/verify-phone"
-        class="button is-light sidenav-close"
+        class="button is-light "
         ><i class="material-icons left">perm_phone_msg</i>
         verify Phone
       </router-link>
     </li>
     <li>
-      <a v-if="isLoggedIn" @click="signout" class="sidenav-close">
+      <a
+        v-if="isLoggedIn"
+        @click="signout"
+        class="button is-light"
+        style="cursor:pointer"
+      >
         <i class="material-icons left">logout</i>
         signout
       </a>
@@ -99,24 +95,23 @@ import users from "@/store/usersCollection";
 export default {
   setup() {
     const store = useStore();
-    const isActive = ref(false);
     const autoCompleteElement = ref(null);
     const phone = ref("");
     const router = useRouter();
-    let ins;
-    let autoCompleteInstance;
+    let ins; // sidenav instance
+    let autoCompleteInstance; // sidenav instance
     const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
     const user = computed(() => store.state.auth.user);
+
+    // get tiggered when user click signout
     function signout() {
       store.dispatch("auth/logout");
     }
-    function searchUser(ac) {
-      // console.log("searched", el.value.value);
+
+    function searchUser() {
       router.push(
         "/dashboard/user/" + "91" + autoCompleteElement.value.value.slice(4)
       );
-      // console.log(users.value);
-      // console.log(instance);
     }
     function initAutocomplete(ac) {
       autoCompleteInstance = M.Autocomplete.init(ac.value, {

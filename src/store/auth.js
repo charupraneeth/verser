@@ -1,4 +1,5 @@
 import firebase from "@/firebase";
+import db from "../db";
 const state = {
   user: {},
   isLoggedIn: false,
@@ -32,7 +33,10 @@ const actions = {
     // console.log(result);
   },
 
-  async logout() {
+  async logout({ _, state }) {
+    db.collection("users")
+      .doc(state.user.id)
+      .update({ signed_in: false });
     await firebase.auth().signOut();
   },
 };

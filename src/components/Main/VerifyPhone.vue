@@ -77,17 +77,15 @@ export default {
         // console.log(result);
         console.log("otp verified");
         M.toast({ html: "OTP verfied !", classes: "teal" });
-        M.toast({
-          html: "You might want to refresh to see changes !",
-          classes: "teal",
-        });
         store.commit("auth/setPhone", "+91" + this.phone);
         db.collection("users")
           .doc(store.state.auth.user.id)
           .update({
             phone: "+91" + this.phone,
           });
-        this.$router.push("/dashboard");
+        store.dispatch("auth/logout");
+        M.toast({ html: "signin again to get started" });
+        this.$router.push("/");
       } catch (error) {
         M.toast({
           html: error.message || "failed to verify OTP ",

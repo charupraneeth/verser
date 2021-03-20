@@ -3,6 +3,7 @@ import store from "@/store";
 import db from "@/db";
 import router from "@/router";
 import token from "./store/token";
+import M from "materialize-css";
 
 // import { computed } from "vue";
 // const store = useStore();
@@ -22,6 +23,14 @@ firebase.auth().onAuthStateChanged(async function(user) {
         const docRef = db.collection("users").doc(user.uid);
         docRef.onSnapshot((doc) => {
           let setUser = doc.data();
+          if (setUser.signed_in && setUser.token !== token.value) {
+            M.toast({
+              html:
+                "user already logged in other session,sign out there to continue here",
+            });
+            store.dispatch("auth/logout");
+            return;
+          }
           if (token.value && token.value != setUser.token) {
             docRef.update({
               token: token.value,
@@ -41,6 +50,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           created_at: user.metadata.creationTime,
           balance: 50000,
           token: token.value,
+          signed_in: true,
         };
         db.collection("users")
           .doc(setUser.id)

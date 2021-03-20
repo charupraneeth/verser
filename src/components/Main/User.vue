@@ -48,9 +48,22 @@ export default {
     const amount = ref("");
     const isDisabled = ref(false);
     async function sendMoney(token) {
-      isDisabled.value = true;
-      console.log(token);
+      // getting user credentials from store
       const user = computed(() => store.state.auth.user);
+
+      // if phone not verified return
+      if (!user.value.phone) {
+        M.toast({ html: "You must verify your phone to continue transaction" });
+        router.push("/dashboard/verify-phone");
+        return;
+      }
+
+      // if balance out of transaction range return
+      if (user.value.balance < amount.value) {
+        M.toast({ html: "insufficient balance for current transaction" });
+        return;
+      }
+      isDisabled.value = true;
       const data = {
         to: {
           name: userState.data.name,

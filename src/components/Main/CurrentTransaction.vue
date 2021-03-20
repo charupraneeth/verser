@@ -3,7 +3,7 @@
   <div v-if="!isSender && isReciever">
     <h1>Current-Transaction</h1>
     <h4>id: {{ props.id }}</h4>
-    <button class="waves-effect waves-light btn" @click="accept">
+    <button class="waves-effect waves-light btn mr-2" @click="accept">
       accept
     </button>
     <button class="waves-effect waves-light btn" @click="reject">
@@ -12,10 +12,13 @@
   </div>
 
   <div v-else-if="isSender && !isReciever">
+    <h5>Waiting for approval ...</h5>
     <div class="progress">
       <div class="indeterminate"></div>
     </div>
   </div>
+
+  <!--  create a 404 component -->
   <div v-else>
     <h4>404 not found</h4>
   </div>
@@ -67,7 +70,7 @@ export default {
           isReciever.value = query.data().to.id == store.state.auth.user.id;
           if (query.data().status !== "pending") {
             router.push("/dashboard");
-            M.toast({ html: "transaction completed/expired" });
+            M.toast({ html: `tranasction ${query.data().status}` });
           }
           doc.value = query;
         });
