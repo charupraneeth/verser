@@ -35,12 +35,12 @@ const actions = {
   },
 
   async logout({ _, state }) {
-    if (state.isLoggedIn) {
-      db.collection("users")
-        .doc(state.user.id)
-        .update({ signed_in: false });
-      console.log("logged in user log out");
-    }
+    // if (state.isLoggedIn) {
+    //   db.collection("users")
+    //     .doc(state.user.id)
+    //     .update({ signed_in: false });
+    //   console.log("logged in user log out");
+    // }
     await firebase.auth().signOut();
   },
 };
