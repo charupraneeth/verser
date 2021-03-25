@@ -59,7 +59,7 @@ export default {
       }
 
       // if balance out of transaction range return
-      if (user.value.balance < amount.value) {
+      if (user.value.balance < amount.value || amount.value < 1) {
         M.toast({ html: "insufficient balance for current transaction" });
         return;
       }
