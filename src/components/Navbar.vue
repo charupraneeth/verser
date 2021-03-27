@@ -5,7 +5,7 @@
     class="bg-black mt-2  sidenav-padding"
   >
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo ml-10px-lg center">safepe</a>
+      <a href="#" class="brand-logo ml-10px-lg center">Vercer</a>
       <a href="#" data-target="sidenav" class="sidenav-trigger "
         ><i class="material-icons">menu</i></a
       >
