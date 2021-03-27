@@ -1,6 +1,11 @@
 // variables
 $black: #050505;
 $white: #fcfdfc;
+
+@font-face {
+  font-family: "poppins";
+  src: url("../assets/Poppins-Regular.ttf");
+}
 .bg-black {
   background: $black;
 }

@@ -42,7 +42,8 @@ export default {
     background: black;
   }
   to {
-    background: tr;
+    background: transparent;
+    z-index: -100;
   }
 }
 @keyframes fade-top {
