@@ -1,10 +1,12 @@
-@font-face {
-  font-family: 'poppins';
-  src: url('../assets/Poppins-Regular.ttf');
-}
+
 // variables
 $black: #050505;
 $white: #fcfdfc;
+
+@font-face {
+  font-family: "poppins";
+  src: url("../assets/Poppins-Regular.ttf");
+}
 .bg-black {
   background: $black;
 }
@@ -30,6 +32,7 @@ $white: #fcfdfc;
 }
 .main-container {
   min-height: 100vh;
+  position: relative;
 }
 
 .user-card {
