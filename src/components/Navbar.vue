@@ -2,7 +2,7 @@
   <nav
     role="navigation"
     aria-label="navigation"
-    class="teal mt-2  sidenav-padding"
+    class="bg-black mt-2  sidenav-padding"
   >
     <div class="nav-wrapper">
       <a href="#" class="brand-logo ml-10px-lg center">safepe</a>
@@ -13,19 +13,6 @@
   </nav>
 
   <ul class="sidenav sidenav-fixed" id="sidenav">
-    <li v-if="isLoggedIn">
-      <div class="input-field col s6 autocomplete-wrapper">
-        <input
-          ref="autoCompleteElement"
-          v-model="phone"
-          class="autocomplete"
-          type="text"
-          id="autocomplete"
-          autocomplete="off"
-        />
-        <label for="autocomplete">search</label>
-      </div>
-    </li>
     <li>
       <router-link
         v-if="!isLoggedIn"
@@ -100,14 +87,11 @@ import M from "materialize-css";
 import isPendingTransactions from "@/store/isPendingTransactions";
 import { useRouter } from "vue-router";
 import { ref, computed, onMounted, watch } from "vue";
-import users from "@/store/usersCollection";
 export default {
   setup() {
-    const autoCompleteElement = ref(null);
-    const phone = ref("");
     const router = useRouter();
     let ins; // sidenav instance
-    let autoCompleteInstance; // sidenav instance
+
     const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
     const user = computed(() => store.state.auth.user);
     // get tiggered when user click signout
@@ -115,56 +99,17 @@ export default {
       store.dispatch("auth/logout");
     }
 
-    function searchUser() {
-      router.push(
-        "/dashboard/user/" + "91" + autoCompleteElement.value.value.slice(4)
-      );
-    }
-    function initAutocomplete(ac) {
-      autoCompleteInstance = M.Autocomplete.init(ac.value, {
-        data: {},
-        onAutocomplete: () => {
-          searchUser(ac);
-
-          // close sidenav on autocomplete in devices width smaller that 992px
-          if (window.innerWidth <= 992) ins[0].close();
-
-          ac.value.value = "";
-          ac.value.blur();
-        },
-      });
-    }
     onMounted(() => {
-      watch(autoCompleteElement, () => {
-        initAutocomplete(autoCompleteElement);
-      });
       const elems = document.querySelectorAll(".sidenav");
       ins = M.Sidenav.init(elems, {});
       //autocomplete functionality
-      function getUsers() {
-        if (phone.value.length < 2) return;
-        const searchTerms = users.value.reduce((acc, phone) => {
-          acc["+91 " + phone.slice(3)] = null;
-          return acc;
-        }, {});
-        autoCompleteInstance.updateData(searchTerms);
-      }
-      let debounceTimer;
-      watch(phone, () => {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(async () => {
-          getUsers();
-        }, 400);
-      });
     });
 
     return {
       isLoggedIn,
       user,
       signout,
-      autoCompleteElement,
-      phone,
-      searchUser,
+
       isPendingTransactions,
     };
   },
@@ -174,6 +119,11 @@ export default {
 <style lang="scss" scoped>
 #sidenav {
   padding-top: 10px;
+}
+@media screen and (max-width: 375px) {
+  #sidenav {
+    width: 235px;
+  }
 }
 .autocomplete-wrapper {
   padding: 0 10px;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <Navbar />
     <div class="container sidenav-padding">
       <router-view />

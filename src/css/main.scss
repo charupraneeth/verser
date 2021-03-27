@@ -1,3 +1,14 @@
+// variables
+$black: #050505;
+$white: #fcfdfc;
+.bg-black {
+  background: $black;
+}
+
+.bg-white {
+  background: $white;
+}
+
 .sidenav-padding {
   padding-left: 300px;
 }
@@ -6,6 +17,15 @@
   .sidenav-padding {
     padding-left: 0;
   }
+}
+
+#app {
+  background: $white;
+  font-family: poppins;
+  color: $black;
+}
+.main-container {
+  min-height: 100vh;
 }
 
 .user-card {
@@ -17,9 +37,20 @@
 }
 .d-flex {
   display: flex;
-  justify-content: space-between;
+}
+.jc-space-around {
+  justify-content: space-around;
+}
+.br-30 {
+  border-radius: 50px !important;
+}
+.pl-1 {
+  padding-left: 1rem;
 }
 
+.my-3 {
+  margin: 3rem 0;
+}
 .ml-10px-lg {
   @media (min-width: 994px) {
     margin-left: 10px;
