@@ -5,9 +5,9 @@
     class="bg-black mt-2  sidenav-padding"
   >
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo ml-10px-lg center">safepe</a>
+      <a href="#" class="brand-logo ml-10px-lg center" style="font-weight:600;">Vercer</a>
       <a href="#" data-target="sidenav" class="sidenav-trigger "
-        ><i class="material-icons">menu</i></a
+        ><i class="material-icons">Menu</i></a
       >
     </div>
   </nav>
@@ -17,7 +17,7 @@
       <router-link
         v-if="!isLoggedIn"
         to="/"
-        class="button is-light sidenav-close"
+        class="button is-light sidenav-close blue-text"
         >home
       </router-link>
     </li>
@@ -25,7 +25,7 @@
       <router-link
         v-if="!isLoggedIn"
         to="/about"
-        class="button is-light sidenav-close"
+        class="button is-light sidenav-close blue-text"
         >about
       </router-link>
     </li>
@@ -33,17 +33,17 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard"
-        class="button is-light sidenav-close"
-        ><i class="material-icons left">dashboard</i>
-        dashboard
+        class="button is-light sidenav-close blue-text"
+        ><i class="material-icons left blue-text">dashboard</i>
+        Dashboard
       </router-link>
     </li>
     <li>
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/transactions"
-        class="button is-light sidenav-close"
-        ><i class="material-icons left">account_balance</i> transactions
+        class="button is-light sidenav-close blue-text"
+        ><i class="material-icons left blue-text">account_balance</i> transactions
         <span v-if="isPendingTransactions">🎈</span>
       </router-link>
     </li>
@@ -52,10 +52,10 @@
       <router-link
         v-if="isLoggedIn"
         to="/dashboard/profile"
-        class="button is-light sidenav-close"
-        ><i class="material-icons left">account_circle</i>
-        profile
-      </router-link>
+        class="button is-light sidenav-close blue-text"
+        ><i class="material-icons left blue-text">account_circle</i>
+        Profile
+    </router-link>
     </li>
 
     <li>
@@ -71,11 +71,11 @@
       <a
         v-if="isLoggedIn"
         @click="signout"
-        class="button is-light sidenav-close"
+        class="button is-light sidenav-close red-text"
         style="cursor:pointer"
       >
-        <i class="material-icons left">logout</i>
-        signout
+        <i class="material-icons left red-text">logout</i>
+        Signout
       </a>
     </li>
   </ul>
