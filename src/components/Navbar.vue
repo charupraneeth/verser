@@ -5,7 +5,9 @@
     class="bg-black mt-2  sidenav-padding"
   >
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo ml-10px-lg center" style="font-weight:600;">Vercer</a>
+      <a href="#" class="brand-logo ml-10px-lg center" style="font-weight:600;"
+        >Vercer</a
+      >
 
       <a href="#" data-target="sidenav" class="sidenav-trigger "
         ><i class="material-icons">menu</i></a
@@ -44,7 +46,8 @@
         v-if="isLoggedIn"
         to="/dashboard/transactions"
         class="button is-light sidenav-close blue-text"
-        ><i class="material-icons left blue-text">account_balance</i> Transactions
+        ><i class="material-icons left blue-text">account_balance</i>
+        Transactions
         <span v-if="isPendingTransactions">🎈</span>
       </router-link>
     </li>
@@ -56,7 +59,7 @@
         class="button is-light sidenav-close blue-text"
         ><i class="material-icons left blue-text">account_circle</i>
         Profile
-    </router-link>
+      </router-link>
     </li>
 
     <li>
@@ -118,6 +121,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+svg {
+  max-width: 100%;
+}
 #sidenav {
   padding-top: 10px;
 }
