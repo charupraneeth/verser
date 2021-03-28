@@ -8,7 +8,7 @@
       <a href="#" class="brand-logo ml-10px-lg center" style="font-weight:600;">Vercer</a>
 
       <a href="#" data-target="sidenav" class="sidenav-trigger "
-        ><i class="material-icons">Menu</i></a
+        ><i class="material-icons">menu</i></a
       >
     </div>
   </nav>
@@ -19,7 +19,7 @@
         v-if="!isLoggedIn"
         to="/"
         class="button is-light sidenav-close blue-text"
-        >home
+        >Home
       </router-link>
     </li>
     <li>
@@ -27,7 +27,7 @@
         v-if="!isLoggedIn"
         to="/about"
         class="button is-light sidenav-close blue-text"
-        >about
+        >About
       </router-link>
     </li>
     <li>
@@ -44,7 +44,7 @@
         v-if="isLoggedIn"
         to="/dashboard/transactions"
         class="button is-light sidenav-close blue-text"
-        ><i class="material-icons left blue-text">account_balance</i> transactions
+        ><i class="material-icons left blue-text">account_balance</i> Transactions
         <span v-if="isPendingTransactions">🎈</span>
       </router-link>
     </li>

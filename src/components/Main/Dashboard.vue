@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h6>
-      Hello,<br />
+    <h4>
+      Hello, 
       {{ name }}
-    </h6>
+    </h4>
     <!-- <input
           ref="autoCompleteElement"
           v-model="phone"
@@ -14,12 +14,13 @@
         />
         <label for="autocomplete">search</label> -->
     <div>
+      <br>
       <div class="input-field br-30">
-        <i class="material-icons prefix white-text pl-1">search</i>
+        <i class="material-icons prefix white-text pl-1 pt-5 ">search</i>
         <input
           type="text"
           id="autocomplete-input"
-          class="autocomplete"
+          class="autocomplete pt-5"
           ref="autoCompleteElement"
           v-model="phone"
           autocomplete="off"

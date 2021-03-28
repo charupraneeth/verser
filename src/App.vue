@@ -32,13 +32,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fade-out 1.2s 0.5s ease-in 1 forwards;
+  animation: fadeout 1.2s 0.5s ease-in 1 forwards;
 }
 .overlay h4 {
   animation: fade-top 1s 0.5s ease-in-out 1 forwards;
 }
-@keyframes fade-out {
-  from {
+// @keyframes fade-out {
+//   from {
+//     background: black;
+//   }
+//   to{
+//     background: transparent;
+//     z-index: -100;
+//   }
+// }
+@keyframes fadeout {
+  from{
     background: black;
   }
   to {
@@ -51,7 +60,7 @@ export default {
     transform: translateY(0);
   }
   to {
-    transform: translateY(-900%);
+    transform: translateY(-1000%);
   }
 }
 </style>

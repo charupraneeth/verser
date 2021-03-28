@@ -13,33 +13,33 @@
         )"
         :key="transaction.id"
       >
-        <div class="card black">
+        <div class="card black br-30">
           <div class="card-content white-text">
-            <span>status : </span>
+            <span>Status : </span>
             <span class="card-title"
               >{{ transaction.status }}
               <span>
                 <i
                   v-if="transaction.status == 'success'"
-                  class="material-icons green-text"
+                  class="material-icons transaction-icon green-text"
                   >check_circle_outline</i
                 >
                 <i
                   v-else-if="transaction.status == 'failed'"
-                  class="material-icons red-text"
+                  class="material-icons transaction-icon red-text"
                   >highlight_off</i
                 >
-                <i v-else class="material-icons blue-text">schedule</i>
+                <i v-else class="material-icons transaction-icon blue-text">schedule</i>
               </span>
             </span>
             <span>From : </span>
             <span class="card-title">{{ transaction.from.name }}</span>
             <span>To : </span>
             <span class="card-title">{{ transaction.to.name }}</span>
-            <p>Amount : {{ transaction.amount }}</p>
+            <span class="card-title blue-text">Amount : {{ transaction.amount }}</span>
             <span>Time : {{ transaction.created }}</span>
           </div>
-          <div class="card-action" v-if="transaction.status == 'pending'">
+          <div class="card-action br-30" v-if="transaction.status == 'pending'">
             <a
               class="blue-text"
               :href="`/#/dashboard/transaction/${transaction.id}`"

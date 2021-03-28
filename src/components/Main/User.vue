@@ -3,12 +3,12 @@
     <div class="progress" v-if="userState.loading">
       <div class="indeterminate"></div>
     </div>
-    <div class="card user-card" v-else>
-      <div class="card-image">
+    <div class="card user-card black white-text br-30" v-else>
+      <div class="card-image mt-5 pt-16">
         <img :src="userState.data.photo" class="responsive-img avatar m-auto" />
       </div>
-      <div class="card-content mw-200px m-auto">
-        <p class="card-title">{{ userState.data.name }}</p>
+      <div class="card-content m-auto">
+        <p class="card-title m-auto pl-0">{{ userState.data.name }}</p>
         <p>{{ userState.data.phone }}</p>
         <p>{{ userState.data.email }}</p>
       </div>
@@ -17,14 +17,14 @@
           id="amount"
           type="number"
           step="any"
-          class="validate"
+          class="validate white-text"
           v-model="amount"
         />
-        <label for="amount">Amount to pay</label>
+        <label for="amount" class="blue-text">Amount to pay</label>
       </div>
-      <div class="card-action center" v-show="!isDisabled">
+      <div class="card-action center br-30" v-show="!isDisabled">
         <a
-          class="waves-effect waves-light btn"
+          class="waves-effect waves-light btn blue"
           @click="sendMoney(userState.data.token)"
           ><i class="material-icons">account_balance</i> pay</a
         >
@@ -104,6 +104,7 @@ export default {
     };
   },
 };
+
 </script>
 
 <style lang="scss" scoped></style>

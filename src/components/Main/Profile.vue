@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col s12">
       <h4>Profile</h4>
-      <div class="card">
+      <div class="card black white-text br-30 pt-16">
         <div class="card-image">
           <img
             class="responsive-img avatar m-auto"
