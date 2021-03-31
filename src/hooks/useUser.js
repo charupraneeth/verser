@@ -16,7 +16,7 @@ export default function useUser(props) {
       const currentUser = firebase.auth().currentUser;
       if (currentUser && currentUser.phoneNumber == "+" + props.phone) {
         router.push("/dashboard");
-        M.toast({ html: "you cannot pay yourself" });
+        M.toast({ html: "You cannot pay yourself" });
       }
 
       userState.loading = true;
@@ -32,7 +32,7 @@ export default function useUser(props) {
       docRef.forEach((user) => res.push(user.data()));
       userState.data = res[0];
       if (!res[0]) {
-        userState.error = "user not found | verify the number before search";
+        userState.error = "User not found | Please verify the number before search";
         M.toast({ html: userState.error });
       }
     } catch (error) {

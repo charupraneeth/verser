@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 200,
         body: JSON.stringify({
-          message: "successful",
+          message: "Yaay Your Transaction was Successful!",
         }),
       };
     } catch (error) {
@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          message: error.message || "failed",
+          message: error.message || "Your Transaction Failed",
         }),
       };
     }

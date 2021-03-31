@@ -53,14 +53,14 @@ export default {
 
       // if phone not verified return
       if (!user.value.phone) {
-        M.toast({ html: "You must verify your phone to continue transaction" });
+        M.toast({ html: "You need to verify your phone to continue the transaction" });
         router.push("/dashboard/verify-phone");
         return;
       }
 
       // if balance out of transaction range return
       if (user.value.balance < amount.value || amount.value < 1) {
-        M.toast({ html: "insufficient balance for current transaction" });
+        M.toast({ html: "You have insufficient balance for your current transaction" });
         return;
       }
       isDisabled.value = true;
@@ -89,11 +89,11 @@ export default {
         }
         router.push("/dashboard/transaction/" + response.data.transaction.id);
         M.toast({
-          html: response.data.message || "transaction successfully initiated",
+          html: response.data.message || "Transaction successfully initiated",
         });
       } catch (error) {
         console.log(error);
-        M.toast({ html: error.message || "transaction failed" });
+        M.toast({ html: error.message || "Transaction failed" });
       }
     }
     return {

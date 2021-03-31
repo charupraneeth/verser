@@ -41,7 +41,7 @@ messaging
       // console.log(currentToken);
       M.toast({
         html: "Notification enabled successfully",
-        classes: "teal",
+        classes: " blue",
       });
     } else {
       // Show permission request UI
@@ -55,18 +55,18 @@ messaging
     console.log("An error occurred while retrieving token. ", err);
     // ...
     M.toast({
-      html: err.message || "notifications were not enabled",
+      html: err.message || "Notifications were not enabled",
       classes: "red",
     });
 
     M.toast({
-      html: `kindly enable notifications to recieve payments`,
-      classes: "teal",
+      html: `Kindly enable notifications to recieve payments`,
+      classes: " blue ",
     });
   });
 
 messaging.onMessage((payload) => {
-  M.toast({ html: "message recieved" });
+  M.toast({ html: "Message recieved" });
   const click_action = payload.notification.click_action.split("/");
   const transactionId = click_action[click_action.length - 1];
   router.push(`/dashboard/transaction/${transactionId}`);

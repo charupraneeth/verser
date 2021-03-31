@@ -66,16 +66,16 @@
       <router-link
         v-if="isLoggedIn && !user.phone"
         to="/dashboard/verify-phone"
-        class="button is-light sidenav-close"
-        ><i class="material-icons left">perm_phone_msg</i>
-        verify Phone
+        class="button is-light sidenav-close blue-text"
+        ><i class="material-icons left blue-text">perm_phone_msg</i>
+        Verify Phone Number
       </router-link>
     </li>
     <li>
       <a
         v-if="isLoggedIn"
         @click="signout"
-        class="button is-light sidenav-close red-text"
+        class="button is-light sidenav-close red-text signoutcss"
         style="cursor:pointer"
       >
         <i class="material-icons left red-text">logout</i>
@@ -135,5 +135,10 @@ svg {
 .autocomplete-wrapper {
   padding: 0 10px;
   margin: 0 10px;
+}
+.signoutcss{
+  &:hover{
+    background-color: rgba(255, 0, 0, 0.158) !important;
+  }
 }
 </style>

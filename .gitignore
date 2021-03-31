@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
+src/assets/undraw_transfer_money_rywa.svg
+src/assets/undraw_two_factor_authentication_namy.svg

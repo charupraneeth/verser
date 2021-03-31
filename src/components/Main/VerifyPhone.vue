@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <h1>Verify Phone</h1>
+  <div class="mt-5">
+    <h3>Verify Phone</h3>
     <div>
       <div class="input-field col s6">
-        <i class="material-icons prefix">phone</i>
+        <i class="material-icons prefix blue-text">phone</i>
         <input v-model="phone" id="phone" type="tel" class="validate" />
         <label for="phone">Telephone</label>
       </div>
       <div class="input-field">
-        <button id="recaptcha-trigger" class="waves-effect waves-light btn">
+        <button id="recaptcha-trigger" class="waves-effect waves-light btn blue br-30">
           send otp
         </button>
       </div>
-      <div class="input-field col s6" v-if="isOtpSent">
-        <i class="material-icons prefix">vpn_key</i>
+      <div class="input-field col s6 mt-5" v-if="isOtpSent">
+        <i class="material-icons prefix blue-text">vpn_key</i>
         <input
           v-model="otp"
           id="otp"
@@ -21,8 +21,8 @@
           class="validate"
           placeholder="XXXXXX"
         />
-        <button @click="verifyOtp" class="waves-effect waves-light btn">
-          verify otp
+        <button @click="verifyOtp" class="waves-effect waves-light btn blue br-30">
+          Verify OTP
         </button>
       </div>
     </div>
@@ -59,12 +59,12 @@ export default {
           .currentUser.linkWithPhoneNumber(phone, window.recaptchaVerifier);
         // console.log(confirmationResult);
         this.confirmationResult = confirmationResult;
-        M.toast({ html: "OTP sent!", classes: "teal" });
+        M.toast({ html: "Your OTP has been sent!", classes: "blue br-30" });
       } catch (error) {
         console.log(error);
         M.toast({
-          html: error.message || "failed to send OTP",
-          classes: "red",
+          html: error.message || "Failed to send OTP",
+          classes: "red br-30",
         });
       }
     },
@@ -75,8 +75,8 @@ export default {
         // console.log(this.confirmationResult);
         await this.confirmationResult.confirm(this.otp);
         // console.log(result);
-        console.log("otp verified");
-        M.toast({ html: "OTP verfied !", classes: "teal" });
+        console.log("OTP Verified!");
+        M.toast({ html: "OTP verfied !", classes: "blue br-30" });
         store.commit("auth/setPhone", "+91" + this.phone);
         await db
           .collection("users")
@@ -85,11 +85,11 @@ export default {
             phone: "+91" + this.phone,
           });
         store.dispatch("auth/logout");
-        M.toast({ html: "signin again to get started" });
+        M.toast({ html: "Signin again to get started" });
       } catch (error) {
         M.toast({
-          html: error.message || "failed to verify OTP ",
-          classes: "red",
+          html: error.message || "Failed to verify OTP ",
+          classes: "red br-30",
         });
       }
     },
@@ -104,7 +104,7 @@ export default {
         size: "invisible",
         callback: () => {
           console.log("captcha solved", that);
-          M.toast({ html: "Captcha solved !", classes: "teal" });
+          M.toast({ html: "Captcha solved !", classes: "blue" });
           that.sendOtp();
         },
         "expired-callback": () => {

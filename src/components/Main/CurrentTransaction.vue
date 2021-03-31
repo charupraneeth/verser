@@ -6,11 +6,11 @@
     <h4>Amount : {{ doc.data().amount }}</h4>
     <h4>From : {{ doc.data().from.name }}</h4>
     <h5>@phone : {{ doc.data().from.phone }}</h5>
-    <button class="waves-effect waves-light btn mr-2 blue" @click="accept">
-      accept
+    <button class="waves-effect waves-light btn mr-2 blue br-30" @click="accept">
+      Accept
     </button>
-    <button class="waves-effect waves-light btn blue" @click="reject">
-      reject
+    <button class="waves-effect waves-light btn blue br-30" @click="reject">
+      Reject
     </button>
   </div>
 
@@ -52,10 +52,10 @@ export default {
           data
         );
         console.log("client response:", response.data);
-        M.toast({ html: response.data.message || "transaction successful" });
+        M.toast({ html: response.data.message || "Yaay Your transaction was successful !" });
       } catch (error) {
         console.log(error);
-        M.toast({ html: error.message || "transaction failed" });
+        M.toast({ html: error.message || "Sorry, The Transaction failed" });
       }
       doc.value.ref.update({ status: "success" });
       router.push("/dashboard");

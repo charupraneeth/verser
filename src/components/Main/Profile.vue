@@ -16,7 +16,7 @@
           <p v-if="user.phone"><b>Phone : </b>{{ user.phone }}</p>
           <p v-else>
             <b>Phone : </b>
-            <router-link to="verify-phone">click to verify</router-link>
+            <router-link to="verify-phone">Click to verify</router-link>
           </p>
           <time><b>Created at : </b>{{ user.created_at }}</time>
         </div>
