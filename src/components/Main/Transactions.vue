@@ -29,14 +29,32 @@
                   class="material-icons transaction-icon red-text"
                   >highlight_off</i
                 >
-                <i v-else class="material-icons transaction-icon blue-text">schedule</i>
+                <i v-else class="material-icons transaction-icon blue-text"
+                  >schedule</i
+                >
               </span>
             </span>
             <span>From : </span>
-            <span class="card-title">{{ transaction.from.name }}</span>
+            <span class="card-title">
+              {{ transaction.from.name }}
+              {{
+                transaction.from.phone == user.phone
+                  ? ""
+                  : transaction.from.phone.substr(3)
+              }}
+            </span>
             <span>To : </span>
-            <span class="card-title">{{ transaction.to.name }}</span>
-            <span class="card-title blue-text">Amount : {{ transaction.amount }}</span>
+            <span class="card-title">
+              {{ transaction.to.name }}
+              {{
+                transaction.to.phone == user.phone
+                  ? ""
+                  : transaction.to.phone.substr(3)
+              }}
+            </span>
+            <span class="card-title blue-text"
+              >Amount : {{ transaction.amount }}</span
+            >
             <span>Time : {{ transaction.created }}</span>
           </div>
           <div class="card-action br-30" v-if="transaction.status == 'pending'">
@@ -61,7 +79,7 @@ import isPendingTransactions from "@/store/isPendingTransactions";
 import { ref, computed, watch, onMounted } from "vue";
 export default {
   setup() {
-    const userId = computed(() => store.state.auth.user.id);
+    const user = computed(() => store.state.auth.user);
     const transactions = ref([]);
 
     async function dateConvertedObject(details, id, doc) {
@@ -84,11 +102,11 @@ export default {
       }
     }
     watch(
-      userId,
+      user.value.id,
       () => {
-        if (!userId.value) return;
+        if (!user.value.id) return;
         db.collection("transactions")
-          .where("from.id", "==", userId.value)
+          .where("from.id", "==", user.value.id)
           .onSnapshot((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
               // obj.created = obj.created.seconds.toDate();
@@ -101,7 +119,7 @@ export default {
             });
           });
         db.collection("transactions")
-          .where("to.id", "==", userId.value)
+          .where("to.id", "==", user.value.id)
           .onSnapshot((querySnapshot) => {
             querySnapshot.forEach(async (doc) => {
               if (transactions.value.map((t) => t.id).indexOf(doc.id) !== -1) {
@@ -120,6 +138,7 @@ export default {
     });
     return {
       transactions,
+      user,
     };
   },
 };
