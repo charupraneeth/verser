@@ -8,7 +8,10 @@
         <label for="phone">Telephone</label>
       </div>
       <div class="input-field">
-        <button id="recaptcha-trigger" class="waves-effect waves-light btn blue br-30">
+        <button
+          id="recaptcha-trigger"
+          class="waves-effect waves-light btn blue br-30"
+        >
           send otp
         </button>
       </div>
@@ -21,7 +24,10 @@
           class="validate"
           placeholder="XXXXXX"
         />
-        <button @click="verifyOtp" class="waves-effect waves-light btn blue br-30">
+        <button
+          @click="verifyOtp"
+          class="waves-effect waves-light btn blue br-30"
+        >
           Verify OTP
         </button>
       </div>
@@ -84,8 +90,8 @@ export default {
           .update({
             phone: "+91" + this.phone,
           });
-        store.dispatch("auth/logout");
-        M.toast({ html: "Signin again to get started" });
+        this.$router.push("add-pin");
+        M.toast({ html: "Create a pin to continue" });
       } catch (error) {
         M.toast({
           html: error.message || "Failed to verify OTP ",

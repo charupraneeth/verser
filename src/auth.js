@@ -50,6 +50,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
           created_at: user.metadata.creationTime,
           balance: 50000,
           token: token.value,
+          pin: null,
           // signed_in: true,
         };
         db.collection("users")

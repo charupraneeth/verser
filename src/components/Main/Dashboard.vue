@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4>
-      Hello, 
+      Hello,
       {{ name }}
     </h4>
     <!-- <input
@@ -14,7 +14,7 @@
         />
         <label for="autocomplete">search</label> -->
     <div>
-      <br>
+      <br />
       <div class="input-field br-30">
         <i class="material-icons prefix white-text pl-1 pt-5 ">search</i>
         <input

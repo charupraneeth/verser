@@ -61,6 +61,19 @@ const routes = [
     },
   },
   {
+    path: "/dashboard/add-pin",
+    name: "PinInput",
+    component: () =>
+      import(
+        /* webpackChunkName: "VerifyPhone" */ "../components/Main/PinInput.vue"
+      ),
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else if (user.value.pin) next({ name: "Dashboard" });
+      else next();
+    },
+  },
+  {
     path: "/dashboard/verify-phone",
     name: "VerifyPhone",
     component: () =>
