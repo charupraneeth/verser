@@ -6,7 +6,10 @@
     <h4>Amount : {{ doc.data().amount }}</h4>
     <h4>From : {{ doc.data().from.name }}</h4>
     <h5>@phone : {{ doc.data().from.phone }}</h5>
-    <button class="waves-effect waves-light btn mr-2 blue br-30" @click="accept">
+    <button
+      class="waves-effect waves-light btn mr-2 blue br-30"
+      @click="accept"
+    >
       Accept
     </button>
     <button class="waves-effect waves-light btn blue br-30" @click="reject">
@@ -16,6 +19,7 @@
 
   <div v-else-if="isSender && !isReciever">
     <h5>Waiting for approval ...</h5>
+    <!-- <h6>from : {{ doc.data().to.name }}-{{ doc.data().to.phone.substr(3) }}</h6> -->
     <div class="progress">
       <div class="indeterminate"></div>
     </div>
@@ -52,7 +56,10 @@ export default {
           data
         );
         console.log("client response:", response.data);
-        M.toast({ html: response.data.message || "Yaay Your transaction was successful !" });
+        M.toast({
+          html:
+            response.data.message || "Yaay Your transaction was successful !",
+        });
       } catch (error) {
         console.log(error);
         M.toast({ html: error.message || "Sorry, The Transaction failed" });
@@ -73,7 +80,7 @@ export default {
           isReciever.value = query.data().to.id == store.state.auth.user.id;
           if (query.data().status !== "pending") {
             router.push("/dashboard");
-            M.toast({ html: `tranasction ${query.data().status}` });
+            M.toast({ html: `transaction ${query.data().status}` });
           }
           doc.value = query;
         });

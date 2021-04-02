@@ -61,6 +61,15 @@
         Profile
       </router-link>
     </li>
+    <li>
+      <router-link
+        v-if="isLoggedIn"
+        to="/dashboard/scan-qr"
+        class="button is-light sidenav-close blue-text"
+        ><i class="material-icons left blue-text">qr_code</i>
+        scan
+      </router-link>
+    </li>
 
     <li>
       <router-link
@@ -136,8 +145,8 @@ svg {
   padding: 0 10px;
   margin: 0 10px;
 }
-.signoutcss{
-  &:hover{
+.signoutcss {
+  &:hover {
     background-color: rgba(255, 0, 0, 0.158) !important;
   }
 }

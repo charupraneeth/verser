@@ -102,7 +102,7 @@ export default {
       }
     }
     watch(
-      user.value.id,
+      user.value,
       () => {
         if (!user.value.id) return;
         db.collection("transactions")

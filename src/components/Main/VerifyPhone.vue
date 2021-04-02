@@ -4,7 +4,13 @@
     <div>
       <div class="input-field col s6">
         <i class="material-icons prefix blue-text">phone</i>
-        <input v-model="phone" id="phone" type="tel" class="validate" />
+        <input
+          v-model="phone"
+          id="phone"
+          type="tel"
+          autocomplete="off"
+          class="validate"
+        />
         <label for="phone">Telephone</label>
       </div>
       <div class="input-field">

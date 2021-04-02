@@ -56,7 +56,7 @@ export default {
   animation: fadeout 1.2s 0.5s ease-in 1 forwards;
 }
 .overlay h4 {
-  animation: fade-top 1s 0.5s ease-in-out 1 forwards;
+  animation: fade-top 2s 0.5s ease 1 forwards;
 }
 // @keyframes fade-out {
 //   from {
@@ -82,7 +82,7 @@ export default {
     transform: translateY(0);
   }
   to {
-    transform: translateY(-1000%);
+    transform: translateY(-900%);
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col s12">
       <h4>Profile</h4>
-      <div class="card black white-text br-30 pt-16">
+      <div class="card black-text white br-30 pt-16">
         <div class="card-image">
           <img
             class="responsive-img avatar m-auto"
@@ -23,6 +23,18 @@
         <!-- <div class="card-action">
             <a href="#">This is a link</a>
           </div> -->
+        <div class="qr-code-wrapper center">
+          <div>
+            <qrcode-vue
+              :value="
+                `https://vercer.netlify.app/#/dashboard/user/${user.phone.substr(
+                  1
+                )}`
+              "
+              :size="200"
+            ></qrcode-vue>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -30,8 +42,12 @@
 
 <script>
 import { mapState } from "vuex";
+import QrcodeVue from "qrcode.vue";
 export default {
   computed: mapState("auth", ["user", "isLoggedIn"]),
+  components: {
+    QrcodeVue,
+  },
 };
 </script>
 

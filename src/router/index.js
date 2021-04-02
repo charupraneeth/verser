@@ -8,6 +8,7 @@ import Dashboard from "@/components/Main/Dashboard.vue";
 import Profile from "@/components/Main/Profile.vue";
 import Transactions from "@/components/Main/Transactions.vue";
 import Transaction from "@/components/Main/CurrentTransaction.vue";
+import ScanQr from "@/components/Main/ScanQr.vue";
 import { computed } from "vue";
 import store from "@/store";
 
@@ -45,6 +46,15 @@ const routes = [
     path: "/dashboard/transactions",
     name: "Transactions",
     component: Transactions,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
+      else next();
+    },
+  },
+  {
+    path: "/dashboard/scan-qr",
+    name: "ScanQr",
+    component: ScanQr,
     beforeEnter(to, from, next) {
       if (!isLoggedIn.value || !user.value) next({ name: "Home" });
       else next();

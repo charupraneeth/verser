@@ -16,8 +16,10 @@
     "firebase-admin": "^9.5.0",
     "materialize-css": "^1.0.0-rc.2",
     "netlify-cli": "^3.10.6",
+    "qrcode.vue": "^3.2.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-qrcode-reader": "0.0.1",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
