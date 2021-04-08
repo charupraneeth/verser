@@ -29,15 +29,15 @@
       </div>
     </div>
     <div class="pin-overlay" v-if="showPinInput">
-      <div class="pin-input-container">
+      <div class="pin-input-container container mt-3">
         <div class="transaction-credentials">
-          <h4>
+          <h5>
             To : {{ userState.data.name }} -
             <span>{{ userState.data.phone.substr(3) }}</span>
-          </h4>
+          </h5>
           <h4>Amount : {{ amount }}</h4>
         </div>
-        <div class="input-field col s6">
+        <div class="input-field col s6 ">
           <i class="material-icons prefix blue-text">password</i>
           <input
             v-model="pin"
@@ -50,7 +50,7 @@
           />
           <button
             @click="verifyPin"
-            class="waves-effect waves-light btn blue br-30 mt-3"
+            class="waves-effect waves-light btn blue br-30 mt-3 mr-2"
           >
             confirm
           </button>
@@ -75,6 +75,7 @@ import M from "materialize-css";
 import router from "../../router";
 // import { computed } from "vue";
 // sendMoney(userState.data.token)
+
 export default {
   props: ["phone"],
   setup(props) {
@@ -83,6 +84,7 @@ export default {
     const pin = ref(null);
     const isDisabled = ref(false);
     const showPinInput = ref(false);
+
     // getting user credentials from store
     const user = computed(() => store.state.auth.user);
 
@@ -118,6 +120,7 @@ export default {
       showPinInput.value = false;
       pin.value = null;
     }
+
     function preValidation() {
       // if phone not verified return
       if (!user.value.phone) {
@@ -127,7 +130,13 @@ export default {
         router.push("/dashboard/verify-phone");
         return;
       }
-
+      // if amount is not a number
+      if (isNaN(amount.value)) {
+        M.toast({
+          html: "Amount must be number",
+        });
+        return;
+      }
       // if balance out of transaction range return
       if (user.value.balance < amount.value || amount.value < 1) {
         M.toast({
@@ -135,10 +144,10 @@ export default {
         });
         return;
       }
-
       showPinInput.value = true;
     }
 
+    // send notification
     async function sendMoney(token) {
       isDisabled.value = true;
       const data = {

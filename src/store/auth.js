@@ -1,6 +1,6 @@
 import firebase from "@/firebase";
-import router from "../router";
-import db from "../db";
+// import router from "../router";
+// import db from "../db";
 const state = {
   user: {},
   isLoggedIn: false,
