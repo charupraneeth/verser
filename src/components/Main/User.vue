@@ -177,9 +177,20 @@ export default {
         M.toast({
           html: response.data.message || "Transaction successfully initiated",
         });
+        if (response.data.failed) {
+          M.toast({
+            html: "failed to notify the reciver try again later",
+          });
+          isDisabled.value = false;
+        }
       } catch (error) {
         console.log(error);
-        M.toast({ html: error.message || "Transaction failed" });
+        M.toast({
+          html: error.message || "Transaction failed",
+          classes: "red white-text",
+        });
+        M.toast({ html: "try again!!!" });
+        isDisabled.value = false;
       }
     }
     return {

@@ -1,4 +1,27 @@
 exports.handler = async (event, context) => {
+  const { google } = require("googleapis");
+  const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+  const SCOPES = [MESSAGING_SCOPE];
+
+  function getAccessToken() {
+    return new Promise(function(resolve, reject) {
+      const key = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
+      const jwtClient = new google.auth.JWT(
+        key.client_email,
+        null,
+        key.private_key,
+        SCOPES,
+        null
+      );
+      jwtClient.authorize(function(err, tokens) {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(tokens.access_token);
+      });
+    });
+  }
   const axios = require("axios");
   const admin = require("firebase-admin");
   const serviceAccount = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
@@ -47,8 +70,9 @@ exports.handler = async (event, context) => {
   // else if status is pending
   else {
     // try to  add transaction to db
+    let transactionRef;
     try {
-      const transactionRef = await db.collection("transactions").add({
+      transactionRef = await db.collection("transactions").add({
         to,
         from,
         amount: parseInt(amount),
@@ -59,8 +83,9 @@ exports.handler = async (event, context) => {
       const details = (await transactionRef.get()).data();
       details.id = id;
 
-      // sending a notification to the reciever
-      const URL = "https://fcm.googleapis.com/fcm/send";
+      // legacy code : //
+
+      /* const URL = "https://fcm.googleapis.com/fcm/send";
       const data = {
         to: event.queryStringParameters.token,
         notification: {
@@ -75,22 +100,67 @@ exports.handler = async (event, context) => {
           Authorization: `key=${process.env.VUE_APP_FIREBASE_MESSAGING_SERVER_KEY}`,
           "Content-Type": "application/json",
         },
+      }; */
+
+      // sending a notification to the reciever
+
+      const URL =
+        "https://fcm.googleapis.com/v1/projects/safepe-d8e02/messages:send";
+      const accessToken = await getAccessToken();
+      console.log("access token : ", accessToken);
+
+      const data = {
+        message: {
+          token: event.queryStringParameters.token,
+          data: {
+            id: id,
+            body: "data body",
+            title: "data title",
+          },
+          notification: {
+            body: "Amount : " + amount,
+            title: "payment from " + from.name,
+          },
+          webpush: {
+            data: {
+              body: "Amount : " + amount,
+              title: "payment from " + from.name,
+            },
+            fcmOptions: {
+              link: "/#/dashboard/transaction/" + id,
+            },
+          },
+          name: "VERCER NOTIFICATION",
+        },
       };
-      const response = await axios.post(URL, data, config);
-      // console.log("response", response);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken.trim()}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      };
+      await axios.post(URL, data, config);
       return {
         statusCode: 200,
         body: JSON.stringify({
           message: "transaction successfully initiated",
           transaction: details,
+          failed: false,
         }),
       };
     } catch (error) {
       // if adding transaction fails
-      console.log("err", error);
+
+      // remove transaction from db
+      transactionRef.delete();
+      console.log("err : ", error.message, "\nend");
       return {
         statusCode: 400,
-        body: error,
+        body: JSON.stringify({
+          message: error.message || "failed notifying the reciever, try again",
+          failed: true,
+        }),
       };
     }
   }

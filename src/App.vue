@@ -14,18 +14,24 @@
     </div>
     <Navbar />
     <div class="container sidenav-padding">
-      <router-view />
+      <router-view v-if="token" />
+      <div v-else>
+        <h3>Please enable notifications to continue</h3>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Navbar from "@/components/Navbar";
+import token from "./store/token";
 // import firebase from "@/firebase";
 export default {
   components: {
     Navbar,
   },
-  mounted() {},
+  data: () => ({
+    token,
+  }),
 };
 </script>
 <style lang="scss">

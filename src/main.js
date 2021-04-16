@@ -16,5 +16,6 @@ if (!app) {
   app = createApp(App)
     .use(store)
     .use(router)
+    .use(performance)
     .mount("#app");
 }
