@@ -1,31 +1,30 @@
-exports.handler = async (event, context) => {
-  const { google } = require("googleapis");
-  const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
-  const SCOPES = [MESSAGING_SCOPE];
+const axios = require("axios");
+const admin = require("firebase-admin");
+const serviceAccount = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
+const { google } = require("googleapis");
+const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
+const SCOPES = [MESSAGING_SCOPE];
 
-  function getAccessToken() {
-    return new Promise(function(resolve, reject) {
-      const key = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
-      const jwtClient = new google.auth.JWT(
-        key.client_email,
-        null,
-        key.private_key,
-        SCOPES,
-        null
-      );
-      jwtClient.authorize(function(err, tokens) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(tokens.access_token);
-      });
+function getAccessToken() {
+  return new Promise(function(resolve, reject) {
+    const jwtClient = new google.auth.JWT(
+      serviceAccount.client_email,
+      null,
+      serviceAccount.private_key,
+      SCOPES,
+      null
+    );
+    jwtClient.authorize(function(err, tokens) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(tokens.access_token);
     });
-  }
-  const axios = require("axios");
-  const admin = require("firebase-admin");
-  const serviceAccount = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
+  });
+}
 
+exports.handler = async (event, context) => {
   // to prevent app from duplicate initializations
   if (!admin.apps.length)
     admin.initializeApp({
@@ -97,7 +96,7 @@ exports.handler = async (event, context) => {
       };
       const config = {
         headers: {
-          Authorization: `key=${process.env.VUE_APP_FIREBASE_MESSAGING_SERVER_KEY}`,
+          Authorization: `serviceAccount=${process.env.VUE_APP_FIREBASE_MESSAGING_SERVER_KEY}`,
           "Content-Type": "application/json",
         },
       }; */
