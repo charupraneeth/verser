@@ -182,6 +182,7 @@ export default {
             html: "failed to notify the reciver try again later",
           });
           isDisabled.value = false;
+          pin.value = null;
         }
       } catch (error) {
         console.log(error);
@@ -191,6 +192,7 @@ export default {
         });
         M.toast({ html: "try again!!!" });
         isDisabled.value = false;
+        pin.value = null;
       }
     }
     return {

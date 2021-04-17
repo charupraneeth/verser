@@ -6,7 +6,7 @@
   >
     <div class="nav-wrapper">
       <a href="#" class="brand-logo ml-10px-lg center" style="font-weight:600;"
-        >Vercer</a
+        >Verser</a
       >
 
       <a href="#" data-target="sidenav" class="sidenav-trigger "

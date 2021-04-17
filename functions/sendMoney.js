@@ -1,6 +1,6 @@
 const axios = require("axios");
 const admin = require("firebase-admin");
-const serviceAccount = require("./safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json");
+const serviceAccount = require("./service-account.json");
 const { google } = require("googleapis");
 const MESSAGING_SCOPE = "https://www.googleapis.com/auth/firebase.messaging";
 const SCOPES = [MESSAGING_SCOPE];
@@ -103,10 +103,9 @@ exports.handler = async (event, context) => {
 
       // sending a notification to the reciever
 
-      const URL =
-        "https://fcm.googleapis.com/v1/projects/safepe-d8e02/messages:send";
+      const URL = `https://fcm.googleapis.com/v1/projects/${process.env.VUE_APP_FIREBASE_PROJECT_ID}/messages:send`;
       const accessToken = await getAccessToken();
-      console.log("access token : ", accessToken);
+      // console.log("access token : ", accessToken);
 
       const data = {
         message: {
@@ -129,7 +128,7 @@ exports.handler = async (event, context) => {
               link: "/#/dashboard/transaction/" + id,
             },
           },
-          name: "VERCER NOTIFICATION",
+          name: "VERSER NOTIFICATION",
         },
       };
       const config = {
@@ -153,6 +152,7 @@ exports.handler = async (event, context) => {
 
       // remove transaction from db
       transactionRef.delete();
+
       console.log("err : ", error.message, "\nend");
       return {
         statusCode: 400,

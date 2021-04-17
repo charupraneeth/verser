@@ -27,7 +27,7 @@
           <div>
             <qrcode-vue
               :value="
-                `https://vercer.netlify.app/#/dashboard/user/${user.phone.substr(
+                `https://verser.netlify.app/#/dashboard/user/${user.phone.substr(
                   1
                 )}`
               "

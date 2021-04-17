@@ -2,7 +2,7 @@
 node_modules
 android
 /dist
-/functions/safepe-d8e02-firebase-adminsdk-yhzpc-231b49ab44.json
+/functions/service-account.json
 
 # local env files
 .env

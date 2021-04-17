@@ -10,7 +10,7 @@
       </svg>
     </div>
     <div class="overlay">
-      <h4>Vercer</h4>
+      <h4>Verser</h4>
     </div>
     <Navbar />
     <div class="container sidenav-padding">
@@ -24,7 +24,7 @@
 <script>
 import Navbar from "@/components/Navbar";
 import token from "./store/token";
-// import firebase from "@/firebase";
+
 export default {
   components: {
     Navbar,
@@ -54,16 +54,17 @@ export default {
   top: 0;
   left: 0;
   background: black;
+  opacity: 1;
   color: white;
   z-index: 99999;
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeout 1.2s 0.5s ease-in 1 forwards;
+  animation: fade-top 5s 0.8s cubic-bezier(0.44, 0.18, 0.46, 0.98) 1 forwards;
 }
-.overlay h4 {
-  animation: fade-top 2s 0.5s ease 1 forwards;
-}
+// .overlay h4 {
+//   animation: fadeout 1.2s 0.5s ease-in 1 forwards;
+// }
 // @keyframes fade-out {
 //   from {
 //     background: black;
@@ -81,6 +82,7 @@ export default {
     background: none;
     z-index: -100;
     display: none;
+    opacity: 0.2;
   }
 }
 @keyframes fade-top {

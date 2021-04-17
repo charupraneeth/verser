@@ -117,7 +117,6 @@ const routes = [
   },
 ];
 
-console.log(process.env.BASE_URL);
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
