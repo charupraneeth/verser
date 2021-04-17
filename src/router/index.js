@@ -1,8 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
-// import Main from "../views/Main.vue";
-// import firebase from "@/firebase";
-// import VerifyPhone from "@/components/Main/VerifyPhone.vue";
+
 import User from "@/components/Main/User.vue";
 import Dashboard from "@/components/Main/Dashboard.vue";
 import Profile from "@/components/Main/Profile.vue";
@@ -93,6 +91,16 @@ const routes = [
     beforeEnter(to, from, next) {
       if (!isLoggedIn.value || !user.value) next({ name: "Home" });
       else if (user.value.phone) next({ name: "Dashboard" });
+      else next();
+    },
+  },
+  {
+    path: "/dashboard/user/:phone",
+    name: "user",
+    component: User,
+    props: true,
+    beforeEnter(to, from, next) {
+      if (!isLoggedIn.value || !user.value) next({ name: "Home" });
       else next();
     },
   },
