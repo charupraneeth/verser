@@ -37,6 +37,7 @@
           </h5>
           <h4>Amount : {{ amount }}</h4>
         </div>
+        <h5>PIN:</h5>
         <div class="input-field col s6 ">
           <i class="material-icons prefix blue-text">password</i>
           <input
@@ -48,6 +49,7 @@
             min="4"
             max="4"
           />
+
           <button
             @click="verifyPin"
             class="waves-effect waves-light btn blue br-30 mt-3 mr-2"
@@ -104,9 +106,11 @@ export default {
 
       // if pin matches
       if (user.value.pin == pin.value) {
-        console.log("pin matched");
+        // console.log("pin matched");
         sendMoney(userState.data.token);
-        M.toast({ html: "pin verified" });
+        M.toast({
+          html: "pin verified , wait while we intiate the transaction",
+        });
         showPinInput.value = false;
         return;
       }
