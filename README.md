@@ -31,12 +31,6 @@ The traditional model of online payments only requires the bank account number o
 
   - Click Generate New Private Key, then confirm by clicking Generate Key.
 
-  - To use the firebase admin SDK download a private key by following the below instructions
-
-  - In the Firebase console, open Settings > Service Accounts.
-
-  - Click Generate New Private Key, then confirm by clicking Generate Key.
-
   - Securely store the JSON file containing the key in the functions directory and rename it as service-account.json
 
 ### Install dependencies
