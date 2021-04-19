@@ -25,6 +25,20 @@ The traditional model of online payments only requires the bank account number o
 
 - Copy the config variables and create a '.env' file in the root of the project based on the '.env.sample' present in the repo.
 
+- For the firebase admin SDK download a private key by following the below instuctions
+
+  - In the Firebase console, open Settings > Service Accounts.
+
+  - Click Generate New Private Key, then confirm by clicking Generate Key.
+
+  - To use the firebase admin SDK download a private key by following the below instructions
+
+  - In the Firebase console, open Settings > Service Accounts.
+
+  - Click Generate New Private Key, then confirm by clicking Generate Key.
+
+  - Securely store the JSON file containing the key in the functions directory and rename it as service-account.json
+
 ### Install dependencies
 
 ```
